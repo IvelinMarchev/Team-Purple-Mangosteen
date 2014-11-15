@@ -1,0 +1,6 @@
+C:\Users\Filip Kolev\Desktop\Team-Purple-Mangosteen\trunk\PushTheBox\PushTheBox-Beta\bin\PushTheBox-Beta.dll.config
+C:\Users\Filip Kolev\Desktop\Team-Purple-Mangosteen\trunk\PushTheBox\PushTheBox-Beta\bin\PushTheBox-Beta.dll
+C:\Users\Filip Kolev\Desktop\Team-Purple-Mangosteen\trunk\PushTheBox\PushTheBox-Beta\bin\PushTheBox-Beta.pdb
+C:\Users\Filip Kolev\Desktop\Team-Purple-Mangosteen\trunk\PushTheBox\PushTheBox-Beta\obj\Debug\PushTheBox-Beta.csprojResolveAssemblyReference.cache
+C:\Users\Filip Kolev\Desktop\Team-Purple-Mangosteen\trunk\PushTheBox\PushTheBox-Beta\obj\Debug\PushTheBox-Beta.dll
+C:\Users\Filip Kolev\Desktop\Team-Purple-Mangosteen\trunk\PushTheBox\PushTheBox-Beta\obj\Debug\PushTheBox-Beta.pdb

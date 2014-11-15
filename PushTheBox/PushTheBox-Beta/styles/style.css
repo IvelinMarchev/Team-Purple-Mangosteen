@@ -1,0 +1,13 @@
+﻿body {
+}
+
+section {
+    width: 680px;
+    height: 500px;
+    margin: 100px auto; 
+    
+}
+
+canvas {    
+    border: 1px solid black;   
+}
