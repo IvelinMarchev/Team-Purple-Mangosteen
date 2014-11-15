@@ -181,3 +181,15 @@ UpgradeLog*.htm
 
 # Microsoft Fakes
 FakesAssemblies/
+
+
+*~
+3.
+*.lock
+4.
+*.DS_Store
+5.
+*.swp
+6.
+*.out
+.idea/
