@@ -15,6 +15,38 @@ var player = {
         ctx.fillStyle = '#F00';
         ctx.fillRect(this.playerLeft, this.playerTop, BOX_SIZE, BOX_SIZE);
     }
+};
+
+var wallArray = [
+    wall = {
+    wallLeft: 0,
+    wallTop: CANVAS_HEIGHT - BOX_SIZE,
+        draw: function () {
+            ctx.fillStyle = 'black';
+            ctx.fillRect(this.wallLeft, this.wallTop, BOX_SIZE, BOX_SIZE);
+        }
+    },
+    wall = {
+    wallLeft: 0,
+    wallTop: CANVAS_HEIGHT - 2*BOX_SIZE,
+        draw: function () {
+            ctx.fillStyle = 'black';
+            ctx.fillRect(this.wallLeft, this.wallTop, BOX_SIZE, BOX_SIZE);
+        }
+    }
+];
+
+
+//check if object overlaps with wall coordinates
+function overlaps(objX, objY) {  
+    var isOverlapping = 0;
+    for (var i = 0; i < wallArray.length; i++) {
+        if(wallArray[i].wallLeft == objX && wallArray[i].wallTop == objY){
+            isOverlapping ++;
+            break;
+        }
+    }
+    return isOverlapping;
 }
 
 refreshScreen();
@@ -23,6 +55,11 @@ function refreshScreen() {
     clearCanvas();
     drawGrid();
     player.draw();
+
+    //draw the walls
+    for (var i = 0; i < wallArray.length; i++) {
+        wallArray[i].draw();
+    }
 }
 
 document.addEventListener("keydown", keyDownHandler, false);
@@ -30,16 +67,16 @@ document.addEventListener("keydown", keyDownHandler, false);
 function keyDownHandler(event) {
     var keyPressed = event.keyCode;
 
-    if (keyPressed == 37) { // left       
+    if (keyPressed == 37 && !overlaps(player.playerLeft - BOX_SIZE, player.playerTop)) { // left       
         player.playerLeft -= BOX_SIZE;
         player.playerRight -= BOX_SIZE;
-    } else if (keyPressed == 38) { // up
+    } else if (keyPressed == 38 && !overlaps(player.playerLeft, player.playerTop - BOX_SIZE)) { // up
         player.playerTop -= BOX_SIZE;
         player.playerBottom -= BOX_SIZE;
-    } else if (keyPressed == 39) { // right
+    } else if (keyPressed == 39 && !overlaps(player.playerLeft + BOX_SIZE, player.playerTop)) { // right
         player.playerLeft += BOX_SIZE;
         player.playerRight += BOX_SIZE;
-    } else if (keyPressed == 40) { // down
+    } else if (keyPressed == 40 && !overlaps(player.playerLeft, player.playerTop + BOX_SIZE)) { // down
         player.playerTop += BOX_SIZE;
         player.playerBottom += BOX_SIZE;
     }
@@ -49,7 +86,6 @@ function keyDownHandler(event) {
 
 function clearCanvas() {
     ctx.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
-<<<<<<< .mine
 }
 
 function drawGrid() {
@@ -69,7 +105,6 @@ function drawGrid() {
         ctx.lineTo( CANVAS_WIDTH, i * BOX_SIZE);
         ctx.stroke();
     }
-}=======
 }
 
-alert('test');>>>>>>> .r7
+
