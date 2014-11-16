@@ -15,7 +15,7 @@ var gameOver = false;
     BoxObj.onload = function() {
     ctx.drawImage(imageObj, x, y, width, height);
 };
-    imageObj.src = 'http://www.html5canvastutorials.com/demos/assets/darth-vader.jpg';
+//    imageObj.src = 'http://www.html5canvastutorials.com/demos/assets/darth-vader.jpg';
 
 
 var player = {
