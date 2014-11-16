@@ -13,21 +13,57 @@ var gameOver = false;
     var width = 200;
     var height = 137;
     BoxObj.onload = function() {
-    ctx.drawImage(imageObj, x, y, width, height);
-};
+        ctx.drawImage(imageObj, x, y, width, height);
+    };
 //    imageObj.src = 'http://www.html5canvastutorials.com/demos/assets/darth-vader.jpg';
 
 
 var player = {
     playerLeft: (CANVAS_WIDTH - BOX_SIZE) / 2,
     playerRight: (CANVAS_WIDTH + BOX_SIZE) / 2,
-    playerTop: CANVAS_HEIGHT - BOX_SIZE,
+    playerTop: CANVAS_HEIGHT - 2*BOX_SIZE,
     playerBottom: CANVAS_HEIGHT,
     draw: function () {
         ctx.fillStyle = '#F00';
         ctx.fillRect(this.playerLeft, this.playerTop, BOX_SIZE, BOX_SIZE);
     }
 };
+
+
+var outerWalArray = [];
+for (var row = 0; row < CANVAS_WIDTH / BOX_SIZE - 1; row++) {
+    for (var col = 0; col < CANVAS_WIDTH / BOX_SIZE; col++) {
+        if(row == 0 || row == CANVAS_WIDTH / BOX_SIZE - 2){
+            outerWalArray.push(
+                wall = {
+                    wallLeft: col*BOX_SIZE,
+                    wallTop: row*BOX_SIZE,
+                    draw: function () {
+                        ctx.fillStyle = 'black';
+                        ctx.fillRect(this.wallLeft, this.wallTop, BOX_SIZE, BOX_SIZE);
+                    }
+                }
+            );
+        } else if(col ==0 || col == CANVAS_WIDTH / BOX_SIZE-1) {
+            outerWalArray.push(
+                wall = {
+                    wallLeft: col*BOX_SIZE,
+                    wallTop: row*BOX_SIZE,
+                    draw: function () {
+                        ctx.fillStyle = 'black';
+                        ctx.fillRect(this.wallLeft, this.wallTop, BOX_SIZE, BOX_SIZE);
+                    }
+                }
+            );
+        }
+    }
+}
+    
+function drawOuterWall() {
+    for (i = 0; i < outerWalArray.length; i++) {
+        outerWalArray[i].draw();
+    }
+}
 
 var wallArray = [
     wall = {
@@ -48,12 +84,26 @@ var wallArray = [
     }
 ];
 
+function drawInnerWall() {
+    for (var i = 0; i < wallArray.length; i++) {
+        wallArray[i].draw();
+    }
+}
+
 
 //check if object overlaps with wall coordinates
 function overlaps(objX, objY) {  
     var isOverlapping = 0;
+    //inner walls
     for (var i = 0; i < wallArray.length; i++) {
         if(wallArray[i].wallLeft == objX && wallArray[i].wallTop == objY){
+            isOverlapping ++;
+            break;
+        }
+    }
+    //outer walls
+    for (i = 0; i < outerWalArray.length; i++) {
+        if(outerWalArray[i].wallLeft == objX && outerWalArray[i].wallTop == objY){
             isOverlapping ++;
             break;
         }
@@ -66,12 +116,9 @@ refreshScreen();
 function refreshScreen() {
     clearCanvas();
     drawGrid();
+    drawOuterWall();
+    drawInnerWall();
     player.draw();
-
-    //draw the walls
-    for (var i = 0; i < wallArray.length; i++) {
-        wallArray[i].draw();
-    }
 }
 
 document.addEventListener("keydown", keyDownHandler, false);
@@ -112,7 +159,7 @@ function drawGrid() {
         ctx.stroke();
     }
 
-    for (var i = 1; i <= rows; i++) {
+    for (i = 1; i <= rows; i++) {
         ctx.moveTo(0, i * BOX_SIZE);
         ctx.lineTo( CANVAS_WIDTH, i * BOX_SIZE);
         ctx.stroke();
