@@ -6,6 +6,18 @@ var CANVAS_WIDTH = 680;
 var CANVAS_HEIGHT = 500;
 var gameOver = false;
 
+// START OF THE BOX
+    var BoxObj = new Image();
+    var x = 188;
+    var y = 30;
+    var width = 200;
+    var height = 137;
+    BoxObj.onload = function() {
+    ctx.drawImage(imageObj, x, y, width, height);
+};
+    imageObj.src = 'http://www.html5canvastutorials.com/demos/assets/darth-vader.jpg';
+
+
 var player = {
     playerLeft: (CANVAS_WIDTH - BOX_SIZE) / 2,
     playerRight: (CANVAS_WIDTH + BOX_SIZE) / 2,
@@ -46,4 +58,3 @@ function clearCanvas() {
     ctx.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
 }
 
-alert('test');
