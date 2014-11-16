@@ -102,7 +102,7 @@ function drawGrid() {
 
     for (var i = 1; i <= rows; i++) {
         ctx.moveTo(0, i * BOX_SIZE);
-        ctx.lineTo( CANVAS_WIDTH, i * BOX_SIZE);
+        ctx.lineTo(CANVAS_WIDTH, i * BOX_SIZE);
         ctx.stroke();
     }
 }
