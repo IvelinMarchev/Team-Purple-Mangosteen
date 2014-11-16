@@ -19,16 +19,16 @@ var player = {
 
 var wallArray = [
     wall = {
-    wallLeft: 0,
-    wallTop: CANVAS_HEIGHT - BOX_SIZE,
+    wallLeft: 3*BOX_SIZE,
+    wallTop: CANVAS_HEIGHT - 4*BOX_SIZE,
         draw: function () {
             ctx.fillStyle = 'black';
             ctx.fillRect(this.wallLeft, this.wallTop, BOX_SIZE, BOX_SIZE);
         }
     },
     wall = {
-    wallLeft: 0,
-    wallTop: CANVAS_HEIGHT - 2*BOX_SIZE,
+    wallLeft: 2*BOX_SIZE,
+    wallTop: CANVAS_HEIGHT - 3*BOX_SIZE,
         draw: function () {
             ctx.fillStyle = 'black';
             ctx.fillRect(this.wallLeft, this.wallTop, BOX_SIZE, BOX_SIZE);
