@@ -25,6 +25,8 @@ if (true) {
 }
 
 
+wallImage.onload = drawOuterWall();
+
 /* -----PLAYER----- */
 
 var player = {
@@ -52,7 +54,7 @@ var player = {
 
 function gameLoop() {
     addObjects(LEVEL);
-    clearCanvas();
+    ctx.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
     ctx.font = "30px Arial";
     ctx.fillText("Ready? Press any key to begin...", 100, 100);
 
@@ -86,13 +88,12 @@ function addObjects(level) {
 /* -----DRAW GRID LAYOUT----- */
 
 function clearCanvas() {
-    ctx.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+    ctx.clearRect(BOX_SIZE, BOX_SIZE, (COLUMNS - 2) * BOX_SIZE, (ROWS - 2) * BOX_SIZE);
 }
 
 function refreshScreen() {
     clearCanvas();
     drawGrid();
-    drawOuterWall();
     drawInnerWall();
     drawTargets();
     drawBox();
@@ -156,7 +157,7 @@ function BuildWall(xCoord, yCoord) {
             var pat = ctx.createPattern(wallImage, "repeat");
             ctx.rect(this.x, this.y, BOX_SIZE, BOX_SIZE);
             ctx.fillStyle = pat;
-            ctx.fill();           
+            ctx.fill();
         }
     }
 }
