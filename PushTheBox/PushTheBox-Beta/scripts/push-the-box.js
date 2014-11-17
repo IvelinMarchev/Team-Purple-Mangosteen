@@ -25,11 +25,11 @@ switch (LEVEL) {
     case 2:
     case 4:
     default:
-        BOX_SIZE = 40;
-        ROWS = 16;
-        COLUMNS = 17;
-        playerStartX = 8 * BOX_SIZE;
-        playerStartY = 10 * BOX_SIZE;
+        BOX_SIZE = 100;
+        ROWS = 8;
+        COLUMNS = 8;
+        playerStartX = 3 * BOX_SIZE;
+        playerStartY = 5 * BOX_SIZE;
         wallImage.src = 'images/brick_wall_tiled_perfect.png';
         break;
 }
@@ -78,15 +78,11 @@ function addObjects(level) {
         case 0:
         default:
             targetArray.push(CreateTarget(6 * BOX_SIZE, BOX_SIZE));
-            targetArray.push(CreateTarget(9 * BOX_SIZE, BOX_SIZE));
+
             innerWallArray.push(BuildWall(3 * BOX_SIZE, CANVAS_HEIGHT - 4 * BOX_SIZE));
             innerWallArray.push(BuildWall(2 * BOX_SIZE, CANVAS_HEIGHT - 3 * BOX_SIZE));
             innerWallArray.push(BuildWall(5 * BOX_SIZE, BOX_SIZE));
-            innerWallArray.push(BuildWall(5 * BOX_SIZE, 2 * BOX_SIZE));
-            innerWallArray.push(BuildWall(10 * BOX_SIZE, BOX_SIZE));
-            innerWallArray.push(BuildWall(10 * BOX_SIZE, 2 * BOX_SIZE));
-            boxArray.push(AddBox(CANVAS_WIDTH - BOX_SIZE * 10, CANVAS_HEIGHT - BOX_SIZE * 8));
-            boxArray.push(AddBox(CANVAS_WIDTH - BOX_SIZE * 8, CANVAS_HEIGHT - BOX_SIZE * 8));
+            boxArray.push(AddBox(3 * BOX_SIZE, 3 * BOX_SIZE));
             break;
     }
 }
@@ -137,12 +133,12 @@ function drawGrid() {
 /* -----OUTER WALLS----- */
 
 function createOuterWalls() {
-    for (var row = 0; row < CANVAS_WIDTH / BOX_SIZE - 1; row++) {
-        for (var col = 0; col < CANVAS_WIDTH / BOX_SIZE; col++) {
-            if (row === 0 ||
-                col === 0 ||
-                row == CANVAS_WIDTH / BOX_SIZE - 2 ||
-                col == CANVAS_WIDTH / BOX_SIZE - 1) {
+    for (var row = 0; row < ROWS; row++) {
+        for (var col = 0; col < COLUMNS; col++) {
+            if (row == 0 ||
+                col == 0 ||
+                row == ROWS - 1 ||
+                col == COLUMNS - 1) {
                 outerWallArray.push(BuildWall(col * BOX_SIZE, row * BOX_SIZE));
             }
         }
