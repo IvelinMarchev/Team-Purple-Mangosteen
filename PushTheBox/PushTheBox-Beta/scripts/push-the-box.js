@@ -1,4 +1,19 @@
-﻿/* -----GLOBAL VARIABLES----- */
+﻿$("#StartButton").click(function () {
+    $("#SplashScreen").hide();
+    $("#playfield").show();
+});
+
+$("#creators").click(function () {
+    $("#SplashScreen").hide();
+    $("#credits").show();
+});
+
+$("#button_back").click(function () {
+    $("#credits").hide();
+    $("#SplashScreen").show();
+});
+
+/* -----GLOBAL VARIABLES----- */
 
 var c = document.getElementById("playfield");
 var ctx = c.getContext("2d");

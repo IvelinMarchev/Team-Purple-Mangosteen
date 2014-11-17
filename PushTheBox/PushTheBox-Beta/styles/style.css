@@ -1,3 +1,78 @@
 canvas {    
-    border: 5px solid gray;   
+    border: 5px solid gray;
+    display: none;
+}
+
+#credits {
+    width: 680px;
+    height: 640px;
+    background-color: #aab4ae;
+    margin: 0;
+    padding: 0;
+    display: none;
+}
+
+ul {
+    list-style: none;
+}
+
+ul li {
+    display: block;
+}
+
+.made {
+    padding-top: 60px;
+}
+
+.artwork{
+    font-size: 23px;
+    color: #ff611b;
+    text-align: center;
+}
+
+.developer {
+    font-size: 23px;
+    color: #bd52f0;
+    text-align: center;
+}
+
+#button_back {
+    color: #0d0db4;
+    border: 3px solid purple;
+    text-decoration: none;
+    margin-left: 270px;
+    font-size: 30px;
+}
+
+#SplashScreen {
+    width: 280px;
+    height: 390px;
+    background-image: url("../images/brick_wall_tiled_perfect.png");
+    padding: 200px;
+    padding-top: 50px !important;
+}
+
+h1 {
+    text-align: center;
+    color: #ffffff;
+    font-size: 40px;
+    background-color: #80808F;
+}
+
+.start {
+    display: block;
+    width: 50px;
+    margin-left: 70px;
+    font-size: 50px;
+    float: left;
+}
+
+input {
+    border: 1px solid #80808F;
+    height: 50px;
+    width: 150px;
+}
+
+input:hover {
+    background-color: #c9c9c9;
 }
