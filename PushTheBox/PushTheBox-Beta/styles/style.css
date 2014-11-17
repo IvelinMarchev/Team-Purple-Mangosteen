@@ -1,13 +1,3 @@
-﻿body {
-}
-
-section {
-    width: 680px;
-    height: 680px;
-    margin: 100px auto; 
-    
-}
-
 canvas {    
     border: 5px solid gray;   
 }
