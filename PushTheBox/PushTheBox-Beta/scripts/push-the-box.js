@@ -1,4 +1,6 @@
-﻿var c = document.getElementById("playfield");
+﻿/* -----GLOBAL VARIABLES----- */
+
+var c = document.getElementById("playfield");
 var ctx = c.getContext("2d");
 
 var targetArray = [];
@@ -6,7 +8,7 @@ var innerWallArray = [];
 var outerWallArray = [];
 var boxArray = [];
 var gameOver = false;
-var LEVEL;
+var LEVEL = 1;
 var BOX_SIZE;
 var ROWS;
 var COLUMNS;
@@ -15,12 +17,17 @@ var playerStartY;
 
 var wallImage = new Image();
 
-// Pick wall depending on level
+/* -----SET DIMENSIONS----- */
 switch (LEVEL) {
-    case 1:
-    case 3:
+    case 1:        
+        BOX_SIZE = 75;
+        ROWS = 8;
+        COLUMNS = 9;
+        playerStartX = 3;
+        playerStartY = 2;
         wallImage.src = 'images/beaten_brick_tiled.png';
         break;
+    case 3:
     case 0:
     case 2:
     case 4:
@@ -28,8 +35,8 @@ switch (LEVEL) {
         BOX_SIZE = 100;
         ROWS = 8;
         COLUMNS = 8;
-        playerStartX = 3 * BOX_SIZE;
-        playerStartY = 5 * BOX_SIZE;
+        playerStartX = 3;
+        playerStartY = 5;
         wallImage.src = 'images/brick_wall_tiled_perfect.png';
         break;
 }
@@ -39,50 +46,74 @@ var CANVAS_HEIGHT = ROWS * BOX_SIZE;
 
 document.getElementById("playfield").setAttribute("width", CANVAS_WIDTH);
 document.getElementById("playfield").setAttribute("height", CANVAS_HEIGHT);
-wallImage.onload = drawOuterWall();
 
+wallImage.onload = drawOuterWall();
 
 
 /* -----PLAYER----- */
 
-function GetPlayerPosition() {
+function CreatePlayer() {
     return {
         x: playerStartX,
         y: playerStartY,
         draw: function () {
             ctx.fillStyle = '#F00';
-            ctx.fillRect(this.x, this.y, BOX_SIZE, BOX_SIZE);
+            ctx.fillRect(this.x * BOX_SIZE, this.y * BOX_SIZE, BOX_SIZE, BOX_SIZE);
         }
     }
 }
-var player = GetPlayerPosition();
+var player = CreatePlayer();
 
 function gameLoop() {
     addObjects(LEVEL);
     ctx.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
     ctx.font = "30px Arial";
-    ctx.fillText("Ready? Press any key to begin...", 100, 100);
+    ctx.fillText("Ready? Press any key to begin...", 2 * BOX_SIZE, 2 * BOX_SIZE);
 
 }
 
 gameLoop();
 
 
+
+/* -----CREATE LEVELS----- */
+
 // Depending on chosen level creates inner walls, boxes and targets in the corresponding arrays
 function addObjects(level) {
     switch (LEVEL) {
         case 1:
+            targetArray.push(CreateTarget(6, 2));
+            targetArray.push(CreateTarget(7, 2))
+            boxArray.push(CreateBox(4, 2));
+            boxArray.push(CreateBox(5, 2));
+            innerWallArray.push(CreateWall(6, 1));
+            innerWallArray.push(CreateWall(7, 1));
+            innerWallArray.push(CreateWall(1, 3));
+            innerWallArray.push(CreateWall(2, 3));
+            innerWallArray.push(CreateWall(3, 3));
+            innerWallArray.push(CreateWall(5, 3));
+            innerWallArray.push(CreateWall(6, 3));
+            innerWallArray.push(CreateWall(2, 4));
+            innerWallArray.push(CreateWall(2, 5));
+            innerWallArray.push(CreateWall(2, 6));
+            innerWallArray.push(CreateWall(6, 6));
+            innerWallArray.push(CreateWall(6, 5));
+            innerWallArray.push(CreateWall(7, 5));
+            innerWallArray.push(CreateWall(1, 4));
+            innerWallArray.push(CreateWall(1, 5));
+            innerWallArray.push(CreateWall(1, 6));
+            innerWallArray.push(CreateWall(7, 6));
+            break;
         case 2:
         case 3:
         case 4:
         case 0:
         default:
-            targetArray.push(CreateTarget(6 * BOX_SIZE, BOX_SIZE));
-
-            innerWallArray.push(BuildWall(3 * BOX_SIZE, CANVAS_HEIGHT - 4 * BOX_SIZE));
-            innerWallArray.push(BuildWall(2 * BOX_SIZE, CANVAS_HEIGHT - 3 * BOX_SIZE));
-            innerWallArray.push(BuildWall(5 * BOX_SIZE, BOX_SIZE));
-            boxArray.push(AddBox(3 * BOX_SIZE, 3 * BOX_SIZE));
+            targetArray.push(CreateTarget(2, 1));
+            targetArray.push(CreateTarget(4, 1));
+            boxArray.push(CreateBox(2, 4));
+            boxArray.push(CreateBox(4, 4));
+            innerWallArray.push(CreateWall(2, 3));
             break;
     }
 }
@@ -139,7 +170,7 @@ function createOuterWalls() {
                 col == 0 ||
                 row == ROWS - 1 ||
                 col == COLUMNS - 1) {
-                outerWallArray.push(BuildWall(col * BOX_SIZE, row * BOX_SIZE));
+                outerWallArray.push(CreateWall(col, row));
             }
         }
     }
@@ -156,13 +187,13 @@ function drawOuterWall() {
 
 /* -----INNER WALLS----- */
 
-function BuildWall(xCoord, yCoord) {
+function CreateWall(xCoord, yCoord) {
     return {
         x: xCoord,
         y: yCoord,
         draw: function () {
             var pat = ctx.createPattern(wallImage, "repeat");
-            ctx.rect(this.x, this.y, BOX_SIZE, BOX_SIZE);
+            ctx.rect(this.x * BOX_SIZE, this.y * BOX_SIZE, BOX_SIZE, BOX_SIZE);
             ctx.fillStyle = pat;
             ctx.fill();
         }
@@ -179,13 +210,13 @@ function drawInnerWall() {
 
 /* -----BOXES----- */
 
-function AddBox(xCoord, yCoord) {
+function CreateBox(xCoord, yCoord) {
     return {
         x: xCoord,
         y: yCoord,
         draw: function () {
             ctx.fillStyle = 'brown';
-            ctx.fillRect(this.x, this.y, BOX_SIZE, BOX_SIZE);
+            ctx.fillRect(this.x * BOX_SIZE, this.y * BOX_SIZE, BOX_SIZE, BOX_SIZE);
         }
     }
 }
@@ -206,7 +237,7 @@ function CreateTarget(xCoord, yCoord) {
         y: yCoord,
         draw: function () {
             ctx.fillStyle = 'green';
-            ctx.fillRect(this.x, this.y, BOX_SIZE, BOX_SIZE);
+            ctx.fillRect(this.x * BOX_SIZE, this.y * BOX_SIZE, BOX_SIZE, BOX_SIZE);
         }
     }
 }
@@ -284,25 +315,25 @@ document.addEventListener("keydown", keyDownHandler, false);
 function keyDownHandler(event) {
     var keyPressed = event.keyCode;
     if (!gameOver) {
-        if (keyPressed == 37 && !overlapsWall(player.x - BOX_SIZE, player.y) && !overlapsTwoBoxes(player.x - BOX_SIZE, player.y, player.x - 2 * BOX_SIZE, player.y)) { // left       
-            player.x -= BOX_SIZE;
-            if (overlapsBox(player.x, player.y) && !overlapsWall(player.x - BOX_SIZE, player.y)) {
-                boxArray[boxIndex].x -= BOX_SIZE;
+        if (keyPressed == 37 && !overlapsWall(player.x - 1, player.y) && !overlapsTwoBoxes(player.x - 1, player.y, player.x - 2 * 1, player.y)) { // left       
+            player.x -= 1;
+            if (overlapsBox(player.x, player.y) && !overlapsWall(player.x - 1, player.y)) {
+                boxArray[boxIndex].x -= 1;
             }
-        } else if (keyPressed == 38 && !overlapsWall(player.x, player.y - BOX_SIZE) && !overlapsTwoBoxes(player.x, player.y - BOX_SIZE, player.x, player.y - 2 * BOX_SIZE)) { // up
-            player.y -= BOX_SIZE;
-            if (overlapsBox(player.x, player.y) && !overlapsWall(player.x, player.y - BOX_SIZE)) {
-                boxArray[boxIndex].y -= BOX_SIZE;
+        } else if (keyPressed == 38 && !overlapsWall(player.x, player.y - 1) && !overlapsTwoBoxes(player.x, player.y - 1, player.x, player.y - 2 * 1)) { // up
+            player.y -= 1;
+            if (overlapsBox(player.x, player.y) && !overlapsWall(player.x, player.y - 1)) {
+                boxArray[boxIndex].y -= 1;
             }
-        } else if (keyPressed == 39 && !overlapsWall(player.x + BOX_SIZE, player.y) && !overlapsTwoBoxes(player.x + BOX_SIZE, player.y, player.x + 2 * BOX_SIZE, player.y)) { // right
-            player.x += BOX_SIZE;
-            if (overlapsBox(player.x, player.y) && !overlapsWall(player.x + BOX_SIZE, player.y)) {
-                boxArray[boxIndex].x += BOX_SIZE;
+        } else if (keyPressed == 39 && !overlapsWall(player.x + 1, player.y) && !overlapsTwoBoxes(player.x + 1, player.y, player.x + 2 * 1, player.y)) { // right
+            player.x += 1;
+            if (overlapsBox(player.x, player.y) && !overlapsWall(player.x + 1, player.y)) {
+                boxArray[boxIndex].x += 1;
             }
-        } else if (keyPressed == 40 && !overlapsWall(player.x, player.y + BOX_SIZE) && !overlapsTwoBoxes(player.x, player.y + BOX_SIZE, player.x, player.y + 2 * BOX_SIZE)) { // down
-            player.y += BOX_SIZE;
-            if (overlapsBox(player.x, player.y) && !overlapsWall(player.x, player.y + BOX_SIZE)) {
-                boxArray[boxIndex].y += BOX_SIZE;
+        } else if (keyPressed == 40 && !overlapsWall(player.x, player.y + 1) && !overlapsTwoBoxes(player.x, player.y + 1, player.x, player.y + 2 * 1)) { // down
+            player.y += 1;
+            if (overlapsBox(player.x, player.y) && !overlapsWall(player.x, player.y + 1)) {
+                boxArray[boxIndex].y += 1;
             }
         }
 
