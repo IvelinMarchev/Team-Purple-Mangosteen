@@ -24,6 +24,9 @@ if (true) {
     wallImage.src = 'images/beaten_brick_tiled.png';
 }
 
+// wallImage.onload = function(){
+//     return drawOuterWall(), drawInnerWall();
+// }
 
 wallImage.onload = drawOuterWall();
 
@@ -32,7 +35,7 @@ wallImage.onload = drawOuterWall();
 var player = {
     x: (CANVAS_WIDTH - BOX_SIZE) / 2,
     y: CANVAS_HEIGHT - 3 * BOX_SIZE,
-    draw: function () {
+    draw: function() {
         ctx.fillStyle = '#F00';
         ctx.fillRect(this.x, this.y, BOX_SIZE, BOX_SIZE);
     }
@@ -153,13 +156,13 @@ function BuildWall(xCoord, yCoord) {
     return {
         x: xCoord,
         y: yCoord,
-        draw: function () {
+        draw: function() {
             var pat = ctx.createPattern(wallImage, "repeat");
             ctx.rect(this.x, this.y, BOX_SIZE, BOX_SIZE);
             ctx.fillStyle = pat;
             ctx.fill();
         }
-    }
+    };
 }
 
 function drawInnerWall() {
@@ -176,11 +179,11 @@ function AddBox(xCoord, yCoord) {
     return {
         x: xCoord,
         y: yCoord,
-        draw: function () {
+        draw: function() {
             ctx.fillStyle = 'brown';
             ctx.fillRect(this.x, this.y, BOX_SIZE, BOX_SIZE);
         }
-    }
+    };
 }
 
 function drawBox() {
@@ -197,11 +200,11 @@ function CreateTarget(xCoord, yCoord) {
     return {
         x: xCoord,
         y: yCoord,
-        draw: function () {
+        draw: function() {
             ctx.fillStyle = 'green';
             ctx.fillRect(this.x, this.y, BOX_SIZE, BOX_SIZE);
         }
-    }
+    };
 }
 
 function drawTargets() {
