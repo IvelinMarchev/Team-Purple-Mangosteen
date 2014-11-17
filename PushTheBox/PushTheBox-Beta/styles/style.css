@@ -1,4 +1,9 @@
-canvas {    
+body {
+    margin: 0;
+    padding: 0;
+}
+
+canvas {
     border: 5px solid gray;
     display: none;
 }
@@ -10,6 +15,27 @@ canvas {
     margin: 0;
     padding: 0;
     display: none;
+}
+
+#info {
+    width: 680px;
+    height: 640px;
+    background-color: #aab4ae;
+    display: none;
+}
+#levels {
+    width: 680px;
+    height: 640px;
+    background-color: #aab4ae;
+    display: none;
+}
+
+.nakov{
+    color: #ff611b;
+    font-size: 25px;
+    margin: auto;
+    width: 550px;
+    margin-bottom: 50px;
 }
 
 ul {
@@ -36,9 +62,9 @@ ul li {
     text-align: center;
 }
 
-#button_back {
-    color: #0d0db4;
-    border: 3px solid purple;
+.button_back {
+    color: black;
+    border: 1px solid black;
     text-decoration: none;
     margin-left: 270px;
     font-size: 30px;
@@ -57,6 +83,7 @@ h1 {
     color: #ffffff;
     font-size: 40px;
     background-color: #80808F;
+    margin: 0;
 }
 
 .start {
@@ -66,11 +93,18 @@ h1 {
     font-size: 50px;
     float: left;
 }
+.select {
+    display: block;
+    width: 170px;
+    margin: auto;
+    font-size: 50px;
+}
 
 input {
     border: 1px solid #80808F;
     height: 50px;
     width: 150px;
+    font-size: 22px;
 }
 
 input:hover {

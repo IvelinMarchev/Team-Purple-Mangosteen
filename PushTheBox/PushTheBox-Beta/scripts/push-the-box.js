@@ -1,6 +1,26 @@
-﻿$("#StartButton").click(function () {
+﻿/* ----- BUTTONS ----- */
+
+$("#StartButton").click(function () {
     $("#SplashScreen").hide();
+    $("#levels").show();
+});
+
+$("#one").click(function () {
     $("#playfield").show();
+    $("#levels").hide();
+    gameLoop(0);
+});
+
+$("#two").click(function () {
+    $("#playfield").show();
+    $("#levels").hide();
+    gameLoop(1);
+});
+
+$("#three").click(function () {
+    $("#playfield").show();
+    $("#levels").hide();
+    gameLoop(2);
 });
 
 $("#creators").click(function () {
@@ -8,8 +28,14 @@ $("#creators").click(function () {
     $("#credits").show();
 });
 
-$("#button_back").click(function () {
+$("#instructions").click(function () {
+    $("#SplashScreen").hide();
+    $("#info").show();
+});
+
+$(".button_back").click(function () {
     $("#credits").hide();
+    $("#info").hide();
     $("#SplashScreen").show();
 });
 
@@ -83,7 +109,7 @@ function CreatePlayer() {
 }
 var player = CreatePlayer();
 
-function gameLoop() {
+function gameLoop(LEVEL) {
     addObjects(LEVEL);
     ctx.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
     ctx.font = "30px Arial";
@@ -91,14 +117,13 @@ function gameLoop() {
 
 }
 
-gameLoop();
 
 
 
 /* -----CREATE LEVELS----- */
 
 // Depending on chosen level creates inner walls, boxes and targets in the corresponding arrays
-function addObjects(level) {
+function addObjects(LEVEL) {
     switch (LEVEL) {
         case 1:
             targetArray.push(CreateTarget(6, 2));
