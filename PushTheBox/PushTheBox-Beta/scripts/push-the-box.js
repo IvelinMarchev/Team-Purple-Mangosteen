@@ -10,6 +10,8 @@ var LEVEL;
 var BOX_SIZE;
 var ROWS;
 var COLUMNS;
+var playerStartX;
+var playerStartY;
 
 var wallImage = new Image();
 
@@ -26,10 +28,11 @@ switch (LEVEL) {
         BOX_SIZE = 40;
         ROWS = 16;
         COLUMNS = 17;
+        playerStartX = 8 * BOX_SIZE;
+        playerStartY = 10 * BOX_SIZE;
         wallImage.src = 'images/brick_wall_tiled_perfect.png';
         break;
 }
-
 
 var CANVAS_WIDTH = COLUMNS * BOX_SIZE;
 var CANVAS_HEIGHT = ROWS * BOX_SIZE;
@@ -42,14 +45,17 @@ wallImage.onload = drawOuterWall();
 
 /* -----PLAYER----- */
 
-var player = {
-    x: (CANVAS_WIDTH - BOX_SIZE) / 2,
-    y: CANVAS_HEIGHT - 3 * BOX_SIZE,
-    draw: function () {
-        ctx.fillStyle = '#F00';
-        ctx.fillRect(this.x, this.y, BOX_SIZE, BOX_SIZE);
+function GetPlayerPosition() {
+    return {
+        x: playerStartX,
+        y: playerStartY,
+        draw: function () {
+            ctx.fillStyle = '#F00';
+            ctx.fillRect(this.x, this.y, BOX_SIZE, BOX_SIZE);
+        }
     }
-};
+}
+var player = GetPlayerPosition();
 
 function gameLoop() {
     addObjects(LEVEL);
