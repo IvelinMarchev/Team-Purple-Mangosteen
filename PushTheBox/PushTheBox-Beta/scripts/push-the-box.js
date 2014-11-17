@@ -1,20 +1,15 @@
 ﻿var c = document.getElementById("playfield");
 var ctx = c.getContext("2d");
 
-var BOX_SIZE = 40;
-var ROWS = 16;
-var COLUMNS = 17;
-var CANVAS_WIDTH = COLUMNS * BOX_SIZE;
-var CANVAS_HEIGHT = ROWS * BOX_SIZE;
 var targetArray = [];
 var innerWallArray = [];
 var outerWallArray = [];
 var boxArray = [];
 var gameOver = false;
 var LEVEL;
-
-document.getElementById("playfield").setAttribute("width", CANVAS_WIDTH);
-document.getElementById("playfield").setAttribute("height", CANVAS_HEIGHT);
+var BOX_SIZE;
+var ROWS;
+var COLUMNS;
 
 var wallImage = new Image();
 
@@ -28,10 +23,19 @@ switch (LEVEL) {
     case 2:
     case 4:
     default:
+        BOX_SIZE = 40;
+        ROWS = 16;
+        COLUMNS = 17;
         wallImage.src = 'images/brick_wall_tiled_perfect.png';
         break;
 }
 
+
+var CANVAS_WIDTH = COLUMNS * BOX_SIZE;
+var CANVAS_HEIGHT = ROWS * BOX_SIZE;
+
+document.getElementById("playfield").setAttribute("width", CANVAS_WIDTH);
+document.getElementById("playfield").setAttribute("height", CANVAS_HEIGHT);
 wallImage.onload = drawOuterWall();
 
 
