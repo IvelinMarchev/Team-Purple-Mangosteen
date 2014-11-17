@@ -10,6 +10,16 @@ var outerWallArray = [];
 var boxArray = [];
 var LEVEL;
 
+var wallImage = new Image();
+
+// Pick wall depending on level
+if (true) {
+    wallImage.src = 'images/brick_wall_tiled_perfect.png';
+} else {
+    wallImage.src = 'images/beaten_brick_tiled.png';
+}
+
+
 /* -----PLAYER----- */
 
 var player = {
@@ -41,6 +51,27 @@ function gameLoop() {
 }
 
 gameLoop();
+
+
+// Depending on chosen level creates inner walls, boxes and targets in the corresponding arrays
+function addObjects(level) {
+    if (true) {
+        targetArray.push(CreateTarget(6 * BOX_SIZE, BOX_SIZE));
+        targetArray.push(CreateTarget(9 * BOX_SIZE, BOX_SIZE));
+        innerWallArray.push(BuildWall(3 * BOX_SIZE, CANVAS_HEIGHT - 4 * BOX_SIZE));
+        innerWallArray.push(BuildWall(2 * BOX_SIZE, CANVAS_HEIGHT - 3 * BOX_SIZE));
+        innerWallArray.push(BuildWall(5 * BOX_SIZE, BOX_SIZE));
+        innerWallArray.push(BuildWall(5 * BOX_SIZE, 2 * BOX_SIZE));
+        innerWallArray.push(BuildWall(10 * BOX_SIZE, BOX_SIZE));
+        innerWallArray.push(BuildWall(10 * BOX_SIZE, 2 * BOX_SIZE));
+        boxArray.push(AddBox(CANVAS_WIDTH - BOX_SIZE * 10, CANVAS_HEIGHT - BOX_SIZE * 8));
+        boxArray.push(AddBox(CANVAS_WIDTH - BOX_SIZE * 8, CANVAS_HEIGHT - BOX_SIZE * 8));
+
+    } else {
+        targetArray.push(CreateTarget(2 * BOX_SIZE, BOX_SIZE));
+        targetArray.push(CreateTarget(7 * BOX_SIZE, BOX_SIZE));
+    }
+}
 
 
 
@@ -83,29 +114,6 @@ function drawGrid() {
     }
 }
 
-
-// Depending on chosen level creates inner walls, boxes and targets in the corresponding arrays
-function addObjects(level) {
-    if (true) {
-        targetArray.push(CreateTarget(6 * BOX_SIZE, BOX_SIZE));
-        targetArray.push(CreateTarget(9 * BOX_SIZE, BOX_SIZE));
-        innerWallArray.push(BuildWall(3 * BOX_SIZE, CANVAS_HEIGHT - 4 * BOX_SIZE));
-        innerWallArray.push(BuildWall(2 * BOX_SIZE, CANVAS_HEIGHT - 3 * BOX_SIZE));
-        innerWallArray.push(BuildWall(5 * BOX_SIZE, BOX_SIZE));
-        innerWallArray.push(BuildWall(5 * BOX_SIZE, 2 * BOX_SIZE));
-        innerWallArray.push(BuildWall(10 * BOX_SIZE, BOX_SIZE));
-        innerWallArray.push(BuildWall(10 * BOX_SIZE, 2 * BOX_SIZE));
-        boxArray.push(AddBox(CANVAS_WIDTH - BOX_SIZE * 10, CANVAS_HEIGHT - BOX_SIZE * 8));
-        boxArray.push(AddBox(CANVAS_WIDTH - BOX_SIZE * 8, CANVAS_HEIGHT - BOX_SIZE * 8));
-
-    } else {
-        targetArray.push(CreateTarget(2 * BOX_SIZE, BOX_SIZE));
-        targetArray.push(CreateTarget(7 * BOX_SIZE, BOX_SIZE));
-    }
-}
-
-
-
 /* -----OUTER WALLS----- */
 
 function createOuterWalls() {
@@ -137,8 +145,7 @@ function BuildWall(xCoord, yCoord) {
         x: xCoord,
         y: yCoord,
         draw: function () {
-            ctx.fillStyle = 'black';
-            ctx.fillRect(this.x, this.y, BOX_SIZE, BOX_SIZE);
+            ctx.drawImage(wallImage, 0, 0, BOX_SIZE, BOX_SIZE, this.x, this.y, BOX_SIZE, BOX_SIZE);
         }
     }
 }
