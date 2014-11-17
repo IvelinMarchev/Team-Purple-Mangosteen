@@ -2,13 +2,18 @@
 var ctx = c.getContext("2d");
 
 var BOX_SIZE = 40;
-var CANVAS_WIDTH = 680;
-var CANVAS_HEIGHT = 640;
+var ROWS = 16;
+var COLUMNS = 17;
+var CANVAS_WIDTH = COLUMNS * BOX_SIZE;
+var CANVAS_HEIGHT = ROWS * BOX_SIZE;
 var targetArray = [];
 var innerWallArray = [];
 var outerWallArray = [];
 var boxArray = [];
 var LEVEL;
+
+document.getElementById("playfield").setAttribute("width", CANVAS_WIDTH);
+document.getElementById("playfield").setAttribute("height", CANVAS_HEIGHT);
 
 var wallImage = new Image();
 
@@ -47,7 +52,10 @@ var player = {
 
 function gameLoop() {
     addObjects(LEVEL);
-    refreshScreen();
+    clearCanvas();
+    ctx.font = "30px Arial";
+    ctx.fillText("Ready? Press any key to begin...", 100, 100);
+
 }
 
 gameLoop();
@@ -145,7 +153,10 @@ function BuildWall(xCoord, yCoord) {
         x: xCoord,
         y: yCoord,
         draw: function () {
-            ctx.drawImage(wallImage, 0, 0, BOX_SIZE, BOX_SIZE, this.x, this.y, BOX_SIZE, BOX_SIZE);
+            var pat = ctx.createPattern(wallImage, "repeat");
+            ctx.rect(this.x, this.y, BOX_SIZE, BOX_SIZE);
+            ctx.fillStyle = pat;
+            ctx.fill();           
         }
     }
 }
