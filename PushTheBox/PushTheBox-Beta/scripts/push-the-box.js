@@ -17,9 +17,12 @@ var playerStartY;
 
 var wallImage = new Image();
 
+
+
 /* -----SET DIMENSIONS----- */
+
 switch (LEVEL) {
-    case 1:        
+    case 1:
         BOX_SIZE = 75;
         ROWS = 8;
         COLUMNS = 9;
@@ -48,6 +51,7 @@ document.getElementById("playfield").setAttribute("width", CANVAS_WIDTH);
 document.getElementById("playfield").setAttribute("height", CANVAS_HEIGHT);
 
 wallImage.onload = drawOuterWall();
+
 
 
 /* -----PLAYER----- */
@@ -366,6 +370,7 @@ function gameWon() {
     return false;
 }
 
+// Please replace with something pretty
 function printVictoryMessage() {
     ctx.clearRect(2 * BOX_SIZE, CANVAS_HEIGHT / 2 - BOX_SIZE, CANVAS_WIDTH - 4 * BOX_SIZE, BOX_SIZE * 2);
     ctx.fillStyle = 'yellow';
