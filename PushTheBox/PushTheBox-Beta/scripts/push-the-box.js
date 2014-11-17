@@ -4,20 +4,13 @@ var ctx = c.getContext("2d");
 var BOX_SIZE = 40;
 var CANVAS_WIDTH = 680;
 var CANVAS_HEIGHT = 640;
-var gameOver = false;
-var boxIndex;
+var targetArray = [];
+var innerWallArray = [];
+var outerWallArray = [];
+var boxArray = [];
+var LEVEL;
 
-// START OF THE BOX
-var BoxObj = new Image();
-var x = 188;
-var y = 30;
-var width = 200;
-var height = 137;
-BoxObj.onload = function () {
-    ctx.drawImage(imageObj, x, y, width, height);
-};
-//    imageObj.src = 'http://www.html5canvastutorials.com/demos/assets/darth-vader.jpg';
-
+/* -----PLAYER----- */
 
 var player = {
     x: (CANVAS_WIDTH - BOX_SIZE) / 2,
@@ -28,35 +21,101 @@ var player = {
     }
 };
 
+// START OF THE BOX
+//var BoxObj = new Image();
+//var x = 188;
+//var y = 30;
+//var width = 200;
+//var height = 137;
 
-var outerWallArray = [];
-//fills outerWallArray with walls:
+//BoxObj.onload = function () {
+//    ctx.drawImage(imageObj, x, y, width, height);
+//};
+//    imageObj.src = 'http://www.html5canvastutorials.com/demos/assets/darth-vader.jpg';
+
+
+
+function gameLoop() {
+    addObjects(LEVEL);
+    refreshScreen();
+}
+
+gameLoop();
+
+
+
+/* -----DRAW GRID LAYOUT----- */
+
+function clearCanvas() {
+    ctx.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+}
+
+function refreshScreen() {
+    clearCanvas();
+    drawGrid();
+    drawOuterWall();
+    drawInnerWall();
+    drawTargets();
+    drawBox();
+    player.draw();
+
+    if (gameWon()) {
+        alert('Victory');
+    }
+}
+
+function drawGrid() {
+    var cols = CANVAS_WIDTH / BOX_SIZE - 1;
+    var rows = CANVAS_HEIGHT / BOX_SIZE - 1;
+
+    ctx.strokeStyle = '#D0D0D0';
+    ctx.lineWidth = 1;
+    for (var i = 1; i <= cols; i++) {
+        ctx.moveTo(i * BOX_SIZE, 0);
+        ctx.lineTo(i * BOX_SIZE, CANVAS_HEIGHT);
+        ctx.stroke();
+    }
+
+    for (i = 1; i <= rows; i++) {
+        ctx.moveTo(0, i * BOX_SIZE);
+        ctx.lineTo(CANVAS_WIDTH, i * BOX_SIZE);
+        ctx.stroke();
+    }
+}
+
+
+// Depending on chosen level creates inner walls, boxes and targets in the corresponding arrays
+function addObjects(level) {
+    if (true) {
+        targetArray.push(CreateTarget(6 * BOX_SIZE, BOX_SIZE));
+        targetArray.push(CreateTarget(9 * BOX_SIZE, BOX_SIZE));
+        innerWallArray.push(BuildWall(3 * BOX_SIZE, CANVAS_HEIGHT - 4 * BOX_SIZE));
+        innerWallArray.push(BuildWall(2 * BOX_SIZE, CANVAS_HEIGHT - 3 * BOX_SIZE));
+        innerWallArray.push(BuildWall(5 * BOX_SIZE, BOX_SIZE));
+        innerWallArray.push(BuildWall(5 * BOX_SIZE, 2 * BOX_SIZE));
+        innerWallArray.push(BuildWall(10 * BOX_SIZE, BOX_SIZE));
+        innerWallArray.push(BuildWall(10 * BOX_SIZE, 2 * BOX_SIZE));
+        boxArray.push(AddBox(CANVAS_WIDTH - BOX_SIZE * 10, CANVAS_HEIGHT - BOX_SIZE * 8));
+        boxArray.push(AddBox(CANVAS_WIDTH - BOX_SIZE * 8, CANVAS_HEIGHT - BOX_SIZE * 8));
+
+    } else {
+        targetArray.push(CreateTarget(2 * BOX_SIZE, BOX_SIZE));
+        targetArray.push(CreateTarget(7 * BOX_SIZE, BOX_SIZE));
+    }
+}
+
+
+
+/* -----OUTER WALLS----- */
 
 function createOuterWalls() {
     for (var row = 0; row < CANVAS_WIDTH / BOX_SIZE - 1; row++) {
         for (var col = 0; col < CANVAS_WIDTH / BOX_SIZE; col++) {
-            if (row === 0 || row == CANVAS_WIDTH / BOX_SIZE - 2) {
-                outerWallArray.push(
-                    wall = {
-                        x: col * BOX_SIZE,
-                        y: row * BOX_SIZE,
-                        draw: function () {
-                            ctx.fillStyle = 'black';
-                            ctx.fillRect(this.x, this.y, BOX_SIZE, BOX_SIZE);
-                        }
-                    }
-                );
-            } else if (col === 0 || col == CANVAS_WIDTH / BOX_SIZE - 1) {
-                outerWallArray.push(
-                    wall = {
-                        x: col * BOX_SIZE,
-                        y: row * BOX_SIZE,
-                        draw: function () {
-                            ctx.fillStyle = 'black';
-                            ctx.fillRect(this.x, this.y, BOX_SIZE, BOX_SIZE);
-                        }
-                    }
-                );
+            if (row === 0 ||
+                col === 0 ||
+                row == CANVAS_WIDTH / BOX_SIZE - 2 ||
+                col == CANVAS_WIDTH / BOX_SIZE - 1) {
+                outerWallArray.push(BuildWall(col * BOX_SIZE, row * BOX_SIZE));
             }
         }
     }
@@ -69,59 +128,20 @@ function drawOuterWall() {
     }
 }
 
-//all inner walls go in this array:
-var innerWallArray = [
-    wall = {
-        x: 3 * BOX_SIZE,
-        y: CANVAS_HEIGHT - 4 * BOX_SIZE,
-        draw: function () {
-            ctx.fillStyle = 'black';
-            ctx.fillRect(this.x, this.y, BOX_SIZE, BOX_SIZE);
-        }
-    },
-    wall = {
-        x: 2 * BOX_SIZE,
-        y: CANVAS_HEIGHT - 3 * BOX_SIZE,
-        draw: function () {
-            ctx.fillStyle = 'black';
-            ctx.fillRect(this.x, this.y, BOX_SIZE, BOX_SIZE);
-        }
-    },
-    wall = {
-        x: 5 * BOX_SIZE,
-        y: 1 * BOX_SIZE,
-        draw: function () {
-            ctx.fillStyle = 'black';
-            ctx.fillRect(this.x, this.y, BOX_SIZE, BOX_SIZE);
-        }
-    },
-    wall = {
-        x: 5 * BOX_SIZE,
-        y: 2 * BOX_SIZE,
-        draw: function () {
-            ctx.fillStyle = 'black';
-            ctx.fillRect(this.x, this.y, BOX_SIZE, BOX_SIZE);
-        }
-    },
 
-    wall = {
-        x: 10 * BOX_SIZE,
-        y: 1 * BOX_SIZE,
-        draw: function () {
-            ctx.fillStyle = 'black';
-            ctx.fillRect(this.x, this.y, BOX_SIZE, BOX_SIZE);
-        }
-    },
 
-    wall = {
-        x: 10 * BOX_SIZE,
-        y: 2 * BOX_SIZE,
+/* -----INNER WALLS----- */
+
+function BuildWall(xCoord, yCoord) {
+    return {
+        x: xCoord,
+        y: yCoord,
         draw: function () {
             ctx.fillStyle = 'black';
             ctx.fillRect(this.x, this.y, BOX_SIZE, BOX_SIZE);
         }
     }
-];
+}
 
 function drawInnerWall() {
     for (var i = 0; i < innerWallArray.length; i++) {
@@ -129,50 +149,18 @@ function drawInnerWall() {
     }
 }
 
-//all boxes go in this array:
-var boxArray = [
-    box = {
-        x: (CANVAS_WIDTH - BOX_SIZE * 10),
-        y: CANVAS_HEIGHT - BOX_SIZE * 8,
-        draw: function () {
-            ctx.fillStyle = 'magenta';
-            ctx.fillRect(this.x, this.y, BOX_SIZE, BOX_SIZE);
-        }
-    },
-    box = {
-        x: (CANVAS_WIDTH - BOX_SIZE * 8),
-        y: CANVAS_HEIGHT - BOX_SIZE * 8,
-        draw: function () {
-            ctx.fillStyle = 'yellow';
-            ctx.fillRect(this.x, this.y, BOX_SIZE, BOX_SIZE);
-        }
-    }
-];
 
 
-//All target locations go in this array
-var targetArray = [
-    target = {
-        x: 6 * BOX_SIZE,
-        y: 1 * BOX_SIZE,
+/* -----BOXES----- */
+
+function AddBox(xCoord, yCoord) {
+    return {
+        x: xCoord,
+        y: yCoord,
         draw: function () {
-            ctx.fillStyle = 'green';
+            ctx.fillStyle = 'brown';
             ctx.fillRect(this.x, this.y, BOX_SIZE, BOX_SIZE);
         }
-    },
-        target = {
-            x: 9 * BOX_SIZE,
-            y: 1 * BOX_SIZE,
-            draw: function () {
-                ctx.fillStyle = 'green';
-                ctx.fillRect(this.x, this.y, BOX_SIZE, BOX_SIZE);
-            }
-        }
-];
-
-function drawTargets() {
-    for (var index in targetArray) {
-        targetArray[index].draw();
     }
 }
 
@@ -181,6 +169,31 @@ function drawBox() {
         boxArray[i].draw();
     }
 }
+
+
+
+/* -----TARGETS----- */
+
+function CreateTarget(xCoord, yCoord) {
+    return {
+        x: xCoord,
+        y: yCoord,
+        draw: function () {
+            ctx.fillStyle = 'green';
+            ctx.fillRect(this.x, this.y, BOX_SIZE, BOX_SIZE);
+        }
+    }
+}
+
+function drawTargets() {
+    for (var index in targetArray) {
+        targetArray[index].draw();
+    }
+}
+
+
+
+/* -----COLLISION CHECKS----- */
 
 //this checks if an object overlaps with a WALL by comparing X,Y coordinates
 function overlapsWall(objX, objY) {
@@ -238,22 +251,7 @@ function overlapsTwoBoxes(objX, objY, directionX, directionY) {
 
 
 
-refreshScreen();
-
-function refreshScreen() {
-    clearCanvas();
-    drawGrid();
-    drawOuterWall();
-    drawInnerWall();
-    drawTargets();
-    drawBox();
-    player.draw();
-
-    if (gameWon()) {
-        alert('Victory');
-    }
-
-}
+/* -----PLAYER MOVEMENT----- */
 
 document.addEventListener("keydown", keyDownHandler, false);
 
@@ -285,28 +283,9 @@ function keyDownHandler(event) {
     refreshScreen();
 }
 
-function clearCanvas() {
-    ctx.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
-}
 
-function drawGrid() {
-    var cols = CANVAS_WIDTH / BOX_SIZE - 1;
-    var rows = CANVAS_HEIGHT / BOX_SIZE - 1;
 
-    ctx.strokeStyle = '#D0D0D0';
-    ctx.lineWidth = 1;
-    for (var i = 1; i <= cols; i++) {
-        ctx.moveTo(i * BOX_SIZE, 0);
-        ctx.lineTo(i * BOX_SIZE, CANVAS_HEIGHT);
-        ctx.stroke();
-    }
-
-    for (i = 1; i <= rows; i++) {
-        ctx.moveTo(0, i * BOX_SIZE);
-        ctx.lineTo(CANVAS_WIDTH, i * BOX_SIZE);
-        ctx.stroke();
-    }
-}
+/* -----VICTORY CHECK----- */
 
 function gameWon() {
     var totalBoxes = boxArray.length;
