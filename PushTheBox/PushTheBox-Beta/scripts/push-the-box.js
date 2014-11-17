@@ -10,6 +10,7 @@ var targetArray = [];
 var innerWallArray = [];
 var outerWallArray = [];
 var boxArray = [];
+var gameOver = false;
 var LEVEL;
 
 document.getElementById("playfield").setAttribute("width", CANVAS_WIDTH);
@@ -18,42 +19,33 @@ document.getElementById("playfield").setAttribute("height", CANVAS_HEIGHT);
 var wallImage = new Image();
 
 // Pick wall depending on level
-if (true) {
-    wallImage.src = 'images/brick_wall_tiled_perfect.png';
-} else {
-    wallImage.src = 'images/beaten_brick_tiled.png';
+switch (LEVEL) {
+    case 1:
+    case 3:
+        wallImage.src = 'images/beaten_brick_tiled.png';
+        break;
+    case 0:
+    case 2:
+    case 4:
+    default:
+        wallImage.src = 'images/brick_wall_tiled_perfect.png';
+        break;
 }
 
-// wallImage.onload = function(){
-//     return drawOuterWall(), drawInnerWall();
-// }
-
 wallImage.onload = drawOuterWall();
+
+
 
 /* -----PLAYER----- */
 
 var player = {
     x: (CANVAS_WIDTH - BOX_SIZE) / 2,
     y: CANVAS_HEIGHT - 3 * BOX_SIZE,
-    draw: function() {
+    draw: function () {
         ctx.fillStyle = '#F00';
         ctx.fillRect(this.x, this.y, BOX_SIZE, BOX_SIZE);
     }
 };
-
-// START OF THE BOX
-//var BoxObj = new Image();
-//var x = 188;
-//var y = 30;
-//var width = 200;
-//var height = 137;
-
-//BoxObj.onload = function () {
-//    ctx.drawImage(imageObj, x, y, width, height);
-//};
-//    imageObj.src = 'http://www.html5canvastutorials.com/demos/assets/darth-vader.jpg';
-
-
 
 function gameLoop() {
     addObjects(LEVEL);
@@ -68,21 +60,24 @@ gameLoop();
 
 // Depending on chosen level creates inner walls, boxes and targets in the corresponding arrays
 function addObjects(level) {
-    if (true) {
-        targetArray.push(CreateTarget(6 * BOX_SIZE, BOX_SIZE));
-        targetArray.push(CreateTarget(9 * BOX_SIZE, BOX_SIZE));
-        innerWallArray.push(BuildWall(3 * BOX_SIZE, CANVAS_HEIGHT - 4 * BOX_SIZE));
-        innerWallArray.push(BuildWall(2 * BOX_SIZE, CANVAS_HEIGHT - 3 * BOX_SIZE));
-        innerWallArray.push(BuildWall(5 * BOX_SIZE, BOX_SIZE));
-        innerWallArray.push(BuildWall(5 * BOX_SIZE, 2 * BOX_SIZE));
-        innerWallArray.push(BuildWall(10 * BOX_SIZE, BOX_SIZE));
-        innerWallArray.push(BuildWall(10 * BOX_SIZE, 2 * BOX_SIZE));
-        boxArray.push(AddBox(CANVAS_WIDTH - BOX_SIZE * 10, CANVAS_HEIGHT - BOX_SIZE * 8));
-        boxArray.push(AddBox(CANVAS_WIDTH - BOX_SIZE * 8, CANVAS_HEIGHT - BOX_SIZE * 8));
-
-    } else {
-        targetArray.push(CreateTarget(2 * BOX_SIZE, BOX_SIZE));
-        targetArray.push(CreateTarget(7 * BOX_SIZE, BOX_SIZE));
+    switch (LEVEL) {
+        case 1:
+        case 2:
+        case 3:
+        case 4:
+        case 0:
+        default:
+            targetArray.push(CreateTarget(6 * BOX_SIZE, BOX_SIZE));
+            targetArray.push(CreateTarget(9 * BOX_SIZE, BOX_SIZE));
+            innerWallArray.push(BuildWall(3 * BOX_SIZE, CANVAS_HEIGHT - 4 * BOX_SIZE));
+            innerWallArray.push(BuildWall(2 * BOX_SIZE, CANVAS_HEIGHT - 3 * BOX_SIZE));
+            innerWallArray.push(BuildWall(5 * BOX_SIZE, BOX_SIZE));
+            innerWallArray.push(BuildWall(5 * BOX_SIZE, 2 * BOX_SIZE));
+            innerWallArray.push(BuildWall(10 * BOX_SIZE, BOX_SIZE));
+            innerWallArray.push(BuildWall(10 * BOX_SIZE, 2 * BOX_SIZE));
+            boxArray.push(AddBox(CANVAS_WIDTH - BOX_SIZE * 10, CANVAS_HEIGHT - BOX_SIZE * 8));
+            boxArray.push(AddBox(CANVAS_WIDTH - BOX_SIZE * 8, CANVAS_HEIGHT - BOX_SIZE * 8));
+            break;
     }
 }
 
@@ -103,7 +98,8 @@ function refreshScreen() {
     player.draw();
 
     if (gameWon()) {
-        alert('Victory');
+        printVictoryMessage();
+        gameOver = true;
     }
 }
 
@@ -125,6 +121,8 @@ function drawGrid() {
         ctx.stroke();
     }
 }
+
+
 
 /* -----OUTER WALLS----- */
 
@@ -156,13 +154,13 @@ function BuildWall(xCoord, yCoord) {
     return {
         x: xCoord,
         y: yCoord,
-        draw: function() {
+        draw: function () {
             var pat = ctx.createPattern(wallImage, "repeat");
             ctx.rect(this.x, this.y, BOX_SIZE, BOX_SIZE);
             ctx.fillStyle = pat;
             ctx.fill();
         }
-    };
+    }
 }
 
 function drawInnerWall() {
@@ -179,11 +177,11 @@ function AddBox(xCoord, yCoord) {
     return {
         x: xCoord,
         y: yCoord,
-        draw: function() {
+        draw: function () {
             ctx.fillStyle = 'brown';
             ctx.fillRect(this.x, this.y, BOX_SIZE, BOX_SIZE);
         }
-    };
+    }
 }
 
 function drawBox() {
@@ -200,11 +198,11 @@ function CreateTarget(xCoord, yCoord) {
     return {
         x: xCoord,
         y: yCoord,
-        draw: function() {
+        draw: function () {
             ctx.fillStyle = 'green';
             ctx.fillRect(this.x, this.y, BOX_SIZE, BOX_SIZE);
         }
-    };
+    }
 }
 
 function drawTargets() {
@@ -279,30 +277,32 @@ document.addEventListener("keydown", keyDownHandler, false);
 
 function keyDownHandler(event) {
     var keyPressed = event.keyCode;
+    if (!gameOver) {
+        if (keyPressed == 37 && !overlapsWall(player.x - BOX_SIZE, player.y) && !overlapsTwoBoxes(player.x - BOX_SIZE, player.y, player.x - 2 * BOX_SIZE, player.y)) { // left       
+            player.x -= BOX_SIZE;
+            if (overlapsBox(player.x, player.y) && !overlapsWall(player.x - BOX_SIZE, player.y)) {
+                boxArray[boxIndex].x -= BOX_SIZE;
+            }
+        } else if (keyPressed == 38 && !overlapsWall(player.x, player.y - BOX_SIZE) && !overlapsTwoBoxes(player.x, player.y - BOX_SIZE, player.x, player.y - 2 * BOX_SIZE)) { // up
+            player.y -= BOX_SIZE;
+            if (overlapsBox(player.x, player.y) && !overlapsWall(player.x, player.y - BOX_SIZE)) {
+                boxArray[boxIndex].y -= BOX_SIZE;
+            }
+        } else if (keyPressed == 39 && !overlapsWall(player.x + BOX_SIZE, player.y) && !overlapsTwoBoxes(player.x + BOX_SIZE, player.y, player.x + 2 * BOX_SIZE, player.y)) { // right
+            player.x += BOX_SIZE;
+            if (overlapsBox(player.x, player.y) && !overlapsWall(player.x + BOX_SIZE, player.y)) {
+                boxArray[boxIndex].x += BOX_SIZE;
+            }
+        } else if (keyPressed == 40 && !overlapsWall(player.x, player.y + BOX_SIZE) && !overlapsTwoBoxes(player.x, player.y + BOX_SIZE, player.x, player.y + 2 * BOX_SIZE)) { // down
+            player.y += BOX_SIZE;
+            if (overlapsBox(player.x, player.y) && !overlapsWall(player.x, player.y + BOX_SIZE)) {
+                boxArray[boxIndex].y += BOX_SIZE;
+            }
+        }
 
-    if (keyPressed == 37 && !overlapsWall(player.x - BOX_SIZE, player.y) && !overlapsTwoBoxes(player.x - BOX_SIZE, player.y, player.x - 2 * BOX_SIZE, player.y)) { // left       
-        player.x -= BOX_SIZE;
-        if (overlapsBox(player.x, player.y) && !overlapsWall(player.x - BOX_SIZE, player.y)) {
-            boxArray[boxIndex].x -= BOX_SIZE;
-        }
-    } else if (keyPressed == 38 && !overlapsWall(player.x, player.y - BOX_SIZE) && !overlapsTwoBoxes(player.x, player.y - BOX_SIZE, player.x, player.y - 2 * BOX_SIZE)) { // up
-        player.y -= BOX_SIZE;
-        if (overlapsBox(player.x, player.y) && !overlapsWall(player.x, player.y - BOX_SIZE)) {
-            boxArray[boxIndex].y -= BOX_SIZE;
-        }
-    } else if (keyPressed == 39 && !overlapsWall(player.x + BOX_SIZE, player.y) && !overlapsTwoBoxes(player.x + BOX_SIZE, player.y, player.x + 2 * BOX_SIZE, player.y)) { // right
-        player.x += BOX_SIZE;
-        if (overlapsBox(player.x, player.y) && !overlapsWall(player.x + BOX_SIZE, player.y)) {
-            boxArray[boxIndex].x += BOX_SIZE;
-        }
-    } else if (keyPressed == 40 && !overlapsWall(player.x, player.y + BOX_SIZE) && !overlapsTwoBoxes(player.x, player.y + BOX_SIZE, player.x, player.y + 2 * BOX_SIZE)) { // down
-        player.y += BOX_SIZE;
-        if (overlapsBox(player.x, player.y) && !overlapsWall(player.x, player.y + BOX_SIZE)) {
-            boxArray[boxIndex].y += BOX_SIZE;
-        }
+        refreshScreen();
     }
 
-    refreshScreen();
 }
 
 
@@ -327,4 +327,13 @@ function gameWon() {
     }
 
     return false;
+}
+
+function printVictoryMessage() {
+    ctx.clearRect(2 * BOX_SIZE, CANVAS_HEIGHT / 2 - BOX_SIZE, CANVAS_WIDTH - 4 * BOX_SIZE, BOX_SIZE * 2);
+    ctx.fillStyle = 'yellow';
+    ctx.fillRect(2 * BOX_SIZE, CANVAS_HEIGHT / 2 - BOX_SIZE, CANVAS_WIDTH - 4 * BOX_SIZE, BOX_SIZE * 2);
+    ctx.font = "40px Arial";
+    ctx.fillStyle = 'red';
+    ctx.fillText("CONGRATULATIONS!", 2.5 * BOX_SIZE, (CANVAS_HEIGHT + BOX_SIZE) / 2);
 }
