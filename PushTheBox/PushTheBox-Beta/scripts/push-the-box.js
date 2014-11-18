@@ -86,9 +86,17 @@ function setLevel(input) {
             playerStartY = 2;
             wallImage.src = 'images/brick_wall_tiled_perfect.png';
             break;
+        case 2:
+            BOX_SIZE = 75;
+            ROWS = 7;
+            COLUMNS = 7;
+            playerStartX = 5;
+            playerStartY = 3;
+            wallImage.src = 'images/brick_wall_tiled_perfect.png';
+            break;
         case 3:
         case 0:
-        case 2:
+        
         case 4:
         default:
             BOX_SIZE = 75;
@@ -171,6 +179,16 @@ function addObjects(LEVEL) {
             innerWallArray.push(CreateWall(7, 6));
             break;
         case 2:
+            targetArray.push(CreateTarget(1, 5));
+            targetArray.push(CreateTarget(4, 1));
+            boxArray.push(CreateBox(3, 3));
+            boxArray.push(CreateBox(4, 3)); 
+            innerWallArray.push(CreateWall(2, 2));
+            innerWallArray.push(CreateWall(3, 2));
+            innerWallArray.push(CreateWall(2, 4));
+            innerWallArray.push(CreateWall(5, 1));
+            innerWallArray.push(CreateWall(5, 2));
+            break;
         case 3:
         case 4:
         case 0:
