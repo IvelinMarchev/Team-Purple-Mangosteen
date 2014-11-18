@@ -8,19 +8,22 @@ $("#StartButton").click(function () {
 $("#one").click(function () {
     $("#playfield").show();
     $("#levels").hide();
-    gameLoop(0);
+    setLevel(1);
+    gameLoop();
 });
 
 $("#two").click(function () {
     $("#playfield").show();
     $("#levels").hide();
-    gameLoop(1);
+    setLevel(2);
+    gameLoop();
 });
 
 $("#three").click(function () {
     $("#playfield").show();
     $("#levels").hide();
-    gameLoop(2);
+    setLevel(3);
+    gameLoop();
 });
 
 $("#creators").click(function () {
@@ -49,52 +52,62 @@ var innerWallArray = [];
 var outerWallArray = [];
 var boxArray = [];
 var gameOver = false;
-var LEVEL = 1;
+var LEVEL;
 var BOX_SIZE;
 var ROWS;
 var COLUMNS;
 var playerStartX;
 var playerStartY;
+var CANVAS_WIDTH;
+var CANVAS_HEIGHT;
 
 var wallImage = new Image();
 var boxImage = new Image();
+var playerImage = new Image();
 
 boxImage.src = 'images/cartoon_wooden_crate_0.png';
+playerImage.src = 'images/nakov.jpg';
+
 
 
 /* -----SET DIMENSIONS----- */
 
-switch (LEVEL) {
-    case 1:
-        BOX_SIZE = 75;
-        ROWS = 8;
-        COLUMNS = 9;
-        playerStartX = 3;
-        playerStartY = 2;
-        wallImage.src = 'images/beaten_brick_tiled.png';
-        break;
-    case 3:
-    case 0:
-    case 2:
-    case 4:
-    default:
-        BOX_SIZE = 100;
-        ROWS = 8;
-        COLUMNS = 8;
-        playerStartX = 3;
-        playerStartY = 5;
-        wallImage.src = 'images/brick_wall_tiled_perfect.png';
-        break;
+function setLevel(input) {
+    LEVEL = input;
+
+    switch (LEVEL) {
+        case 1:
+            BOX_SIZE = 75;
+            ROWS = 8;
+            COLUMNS = 9;
+            playerStartX = 3;
+            playerStartY = 2;
+            wallImage.src = 'images/beaten_brick_tiled.png';
+            break;
+        case 3:
+        case 0:
+        case 2:
+        case 4:
+        default:
+            BOX_SIZE = 100;
+            ROWS = 8;
+            COLUMNS = 8;
+            playerStartX = 3;
+            playerStartY = 5;
+            wallImage.src = 'images/brick_wall_tiled_perfect.png';
+            break;
+    }
+
+    CANVAS_WIDTH = COLUMNS * BOX_SIZE;
+    CANVAS_HEIGHT = ROWS * BOX_SIZE;
+
+    document.getElementById("playfield").setAttribute("width", CANVAS_WIDTH);
+    document.getElementById("playfield").setAttribute("height", CANVAS_HEIGHT);
+
+    wallImage.onload = drawOuterWall();
+    boxImage.width = BOX_SIZE;
 }
 
-var CANVAS_WIDTH = COLUMNS * BOX_SIZE;
-var CANVAS_HEIGHT = ROWS * BOX_SIZE;
-
-document.getElementById("playfield").setAttribute("width", CANVAS_WIDTH);
-document.getElementById("playfield").setAttribute("height", CANVAS_HEIGHT);
-
-wallImage.onload = drawOuterWall();
-boxImage.width = BOX_SIZE;
 
 
 /* -----PLAYER----- */
@@ -104,14 +117,14 @@ function CreatePlayer() {
         x: playerStartX,
         y: playerStartY,
         draw: function () {
-            ctx.fillStyle = '#F00';
-            ctx.fillRect(this.x * BOX_SIZE, this.y * BOX_SIZE, BOX_SIZE, BOX_SIZE);
+            ctx.drawImage(playerImage, 0, 0, 100, 100, this.x * BOX_SIZE, this.y * BOX_SIZE, BOX_SIZE, BOX_SIZE);
         }
     }
 }
-var player = CreatePlayer();
 
-function gameLoop(LEVEL) {
+var player;
+
+function gameLoop() {
     addObjects(LEVEL);
     ctx.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
     ctx.font = "30px Arial";
@@ -121,11 +134,12 @@ function gameLoop(LEVEL) {
 
 
 
-
 /* -----CREATE LEVELS----- */
 
 // Depending on chosen level creates inner walls, boxes and targets in the corresponding arrays
 function addObjects(LEVEL) {
+    player = CreatePlayer();
+
     switch (LEVEL) {
         case 1:
             targetArray.push(CreateTarget(6, 2));
