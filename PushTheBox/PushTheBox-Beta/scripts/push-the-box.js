@@ -64,10 +64,11 @@ var CANVAS_HEIGHT;
 var wallImage = new Image();
 var boxImage = new Image();
 var playerImage = new Image();
+var targetImage = new Image();
 
 boxImage.src = 'images/cartoon_wooden_crate_0.png';
 playerImage.src = 'images/nakov.jpg';
-
+targetImage.src = 'images/Stargate_portal.gif'
 
 
 /* -----SET DIMENSIONS----- */
@@ -295,8 +296,7 @@ function CreateTarget(xCoord, yCoord) {
         x: xCoord,
         y: yCoord,
         draw: function () {
-            ctx.fillStyle = 'green';
-            ctx.fillRect(this.x * BOX_SIZE, this.y * BOX_SIZE, BOX_SIZE, BOX_SIZE);
+            ctx.drawImage(targetImage, 0, 0, 400, 400, this.x * BOX_SIZE, this.y * BOX_SIZE, BOX_SIZE, BOX_SIZE);
         }
     }
 }
@@ -378,24 +378,31 @@ function keyDownHandler(event) {
             player.x -= 1;
             if (overlapsBox(player.x, player.y) && !overlapsWall(player.x - 1, player.y)) {
                 boxArray[boxIndex].x -= 1;
+                document.getElementById('slide').play();
             }
         } else if (keyPressed == 38 && !overlapsWall(player.x, player.y - 1) && !overlapsTwoBoxes(player.x, player.y - 1, player.x, player.y - 2 * 1)) { // up
             player.y -= 1;
             if (overlapsBox(player.x, player.y) && !overlapsWall(player.x, player.y - 1)) {
                 boxArray[boxIndex].y -= 1;
+                document.getElementById('slide').play();
             }
         } else if (keyPressed == 39 && !overlapsWall(player.x + 1, player.y) && !overlapsTwoBoxes(player.x + 1, player.y, player.x + 2 * 1, player.y)) { // right
             player.x += 1;
             if (overlapsBox(player.x, player.y) && !overlapsWall(player.x + 1, player.y)) {
                 boxArray[boxIndex].x += 1;
+                document.getElementById('slide').play();
             }
         } else if (keyPressed == 40 && !overlapsWall(player.x, player.y + 1) && !overlapsTwoBoxes(player.x, player.y + 1, player.x, player.y + 2 * 1)) { // down
             player.y += 1;
             if (overlapsBox(player.x, player.y) && !overlapsWall(player.x, player.y + 1)) {
                 boxArray[boxIndex].y += 1;
+                document.getElementById('slide').play();
             }
         }
 
+        if (keyPressed == 37 || keyPressed == 38 || keyPressed == 39 || keyPressed == 40) {
+            document.getElementById('footsteps').play();
+        }
         refreshScreen();
     }
 
