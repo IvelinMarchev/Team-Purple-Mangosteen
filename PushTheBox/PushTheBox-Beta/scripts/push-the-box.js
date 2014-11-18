@@ -189,7 +189,9 @@ function addObjects(LEVEL) {
 /* -----DRAW GRID LAYOUT----- */
 
 function clearCanvas() {
-    ctx.clearRect(clearCoordinates.x, clearCoordinates.y, BOX_SIZE, BOX_SIZE);
+    if(clearCoordinates.x > 0 && clearCoordinates.y > 0){
+        ctx.clearRect(clearCoordinates.x, clearCoordinates.y, BOX_SIZE, BOX_SIZE);
+    }
 }
 
 function refreshScreen() {
