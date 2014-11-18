@@ -9,7 +9,8 @@ canvas {
     /*background: url('../images/grid.png');*/
     /*background: url('../images/tile.jpg');*/
     /*background: url('../images/tile2.jpg');*/
-    background: url('../images/tile3.jpg');
+    /*background: url('../images/tile3.jpg');*/
+    background: url('../images/tile3border.png');
 }
 
 #credits {
