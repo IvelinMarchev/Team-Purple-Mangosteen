@@ -1,6 +1,7 @@
 body {
     margin: 0;
-    padding: 0;
+    padding: 20px;
+    background-color: #c9c9c9;
 }
 
 canvas {
@@ -11,6 +12,10 @@ canvas {
     /*background: url('../images/tile2.jpg');*/
     /*background: url('../images/tile3.jpg');*/
     background: url('../images/tile3border.png');
+}
+
+body > div {
+    border: 2px solid gray;
 }
 
 #credits {

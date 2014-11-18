@@ -79,12 +79,12 @@ function setLevel(input) {
 
     switch (LEVEL) {
         case 1:
-            BOX_SIZE = 75;
+            BOX_SIZE = 30;
             ROWS = 8;
             COLUMNS = 9;
             playerStartX = 3;
             playerStartY = 2;
-            wallImage.src = 'images/brick_wall_tiled_perfect.png';
+            wallImage.src = 'images/beaten_brick_tiled.png';
             break;
         case 2:
             BOX_SIZE = 75;
@@ -104,7 +104,7 @@ function setLevel(input) {
             COLUMNS = 8;
             playerStartX = 3;
             playerStartY = 5;
-            wallImage.src = 'images/brick_wall_tiled_perfect.png';
+            wallImage.src = 'images/brick_wall_tiled_perfect.png'; 
             break;
     }
 
@@ -115,6 +115,8 @@ function setLevel(input) {
     document.getElementById("playfield").setAttribute("height", CANVAS_HEIGHT);
 
     wallImage.onload = drawOuterWall();
+
+    //add other onload conditions
     boxImage.width = BOX_SIZE;
 }
 
