@@ -57,7 +57,9 @@ var playerStartX;
 var playerStartY;
 
 var wallImage = new Image();
+var boxImage = new Image();
 
+boxImage.src = 'images/cartoon_wooden_crate_0.png';
 
 
 /* -----SET DIMENSIONS----- */
@@ -92,7 +94,7 @@ document.getElementById("playfield").setAttribute("width", CANVAS_WIDTH);
 document.getElementById("playfield").setAttribute("height", CANVAS_HEIGHT);
 
 wallImage.onload = drawOuterWall();
-
+boxImage.width = BOX_SIZE;
 
 
 /* -----PLAYER----- */
@@ -259,8 +261,7 @@ function CreateBox(xCoord, yCoord) {
         x: xCoord,
         y: yCoord,
         draw: function () {
-            ctx.fillStyle = 'brown';
-            ctx.fillRect(this.x * BOX_SIZE, this.y * BOX_SIZE, BOX_SIZE, BOX_SIZE);
+            ctx.drawImage(boxImage, 0, 0, 100, 100, this.x * BOX_SIZE, this.y * BOX_SIZE, BOX_SIZE, BOX_SIZE);
         }
     }
 }
