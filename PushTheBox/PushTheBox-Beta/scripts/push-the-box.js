@@ -60,6 +60,7 @@ var playerStartX;
 var playerStartY;
 var CANVAS_WIDTH;
 var CANVAS_HEIGHT;
+var clearCoordinates = {x: 0, y: 0};
 
 var wallImage = new Image();
 var boxImage = new Image();
@@ -68,7 +69,7 @@ var targetImage = new Image();
 
 boxImage.src = 'images/cartoon_wooden_crate_0.png';
 playerImage.src = 'images/nakov.jpg';
-targetImage.src = 'images/Stargate_portal.gif'
+targetImage.src = 'images/Stargate_portal.gif';
 
 
 /* -----SET DIMENSIONS----- */
@@ -83,14 +84,14 @@ function setLevel(input) {
             COLUMNS = 9;
             playerStartX = 3;
             playerStartY = 2;
-            wallImage.src = 'images/beaten_brick_tiled.png';
+            wallImage.src = 'images/brick_wall_tiled_perfect.png';
             break;
         case 3:
         case 0:
         case 2:
         case 4:
         default:
-            BOX_SIZE = 100;
+            BOX_SIZE = 75;
             ROWS = 8;
             COLUMNS = 8;
             playerStartX = 3;
@@ -120,16 +121,20 @@ function CreatePlayer() {
         draw: function () {
             ctx.drawImage(playerImage, 0, 0, 100, 100, this.x * BOX_SIZE, this.y * BOX_SIZE, BOX_SIZE, BOX_SIZE);
         }
-    }
+    };
 }
 
 var player;
 
 function gameLoop() {
     addObjects(LEVEL);
-    ctx.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
-    ctx.font = "30px Arial";
-    ctx.fillText("Ready? Press any key to begin...", 2 * BOX_SIZE, 2 * BOX_SIZE);
+    drawInnerWall();
+    drawTargets();
+    drawBox();
+    player.draw();
+    // ctx.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+    // ctx.font = "30px Arial";
+    // ctx.fillText("Ready? Press any key to begin...", 2 * BOX_SIZE, 2 * BOX_SIZE);
 
 }
 
@@ -144,7 +149,7 @@ function addObjects(LEVEL) {
     switch (LEVEL) {
         case 1:
             targetArray.push(CreateTarget(6, 2));
-            targetArray.push(CreateTarget(7, 2))
+            targetArray.push(CreateTarget(7, 2));
             boxArray.push(CreateBox(4, 2));
             boxArray.push(CreateBox(5, 2));
             innerWallArray.push(CreateWall(6, 1));
@@ -184,13 +189,11 @@ function addObjects(LEVEL) {
 /* -----DRAW GRID LAYOUT----- */
 
 function clearCanvas() {
-    ctx.clearRect(BOX_SIZE, BOX_SIZE, (COLUMNS - 2) * BOX_SIZE, (ROWS - 2) * BOX_SIZE);
+    ctx.clearRect(clearCoordinates.x, clearCoordinates.y, BOX_SIZE, BOX_SIZE);
 }
 
 function refreshScreen() {
     clearCanvas();
-    drawGrid();
-    drawInnerWall();
     drawTargets();
     drawBox();
     player.draw();
@@ -201,24 +204,24 @@ function refreshScreen() {
     }
 }
 
-function drawGrid() {
-    var cols = CANVAS_WIDTH / BOX_SIZE - 1;
-    var rows = CANVAS_HEIGHT / BOX_SIZE - 1;
+// function drawGrid() {
+//     var cols = CANVAS_WIDTH / BOX_SIZE - 1;
+//     var rows = CANVAS_HEIGHT / BOX_SIZE - 1;
 
-    ctx.strokeStyle = '#D0D0D0';
-    ctx.lineWidth = 1;
-    for (var i = 1; i <= cols; i++) {
-        ctx.moveTo(i * BOX_SIZE, 0);
-        ctx.lineTo(i * BOX_SIZE, CANVAS_HEIGHT);
-        ctx.stroke();
-    }
+//     ctx.strokeStyle = '#D0D0D0';
+//     ctx.lineWidth = 1;
+//     for (var i = 1; i <= cols; i++) {
+//         ctx.moveTo(i * BOX_SIZE, 0);
+//         ctx.lineTo(i * BOX_SIZE, CANVAS_HEIGHT);
+//         ctx.stroke();
+//     }
 
-    for (i = 1; i <= rows; i++) {
-        ctx.moveTo(0, i * BOX_SIZE);
-        ctx.lineTo(CANVAS_WIDTH, i * BOX_SIZE);
-        ctx.stroke();
-    }
-}
+//     for (i = 1; i <= rows; i++) {
+//         ctx.moveTo(0, i * BOX_SIZE);
+//         ctx.lineTo(CANVAS_WIDTH, i * BOX_SIZE);
+//         ctx.stroke();
+//     }
+// }
 
 
 
@@ -258,7 +261,7 @@ function CreateWall(xCoord, yCoord) {
             ctx.fillStyle = pat;
             ctx.fill();
         }
-    }
+    };
 }
 
 function drawInnerWall() {
@@ -278,7 +281,7 @@ function CreateBox(xCoord, yCoord) {
         draw: function () {
             ctx.drawImage(boxImage, 0, 0, 100, 100, this.x * BOX_SIZE, this.y * BOX_SIZE, BOX_SIZE, BOX_SIZE);
         }
-    }
+    };
 }
 
 function drawBox() {
@@ -298,7 +301,7 @@ function CreateTarget(xCoord, yCoord) {
         draw: function () {
             ctx.drawImage(targetImage, 0, 0, 400, 400, this.x * BOX_SIZE, this.y * BOX_SIZE, BOX_SIZE, BOX_SIZE);
         }
-    }
+    };
 }
 
 function drawTargets() {
@@ -375,24 +378,32 @@ function keyDownHandler(event) {
     var keyPressed = event.keyCode;
     if (!gameOver) {
         if (keyPressed == 37 && !overlapsWall(player.x - 1, player.y) && !overlapsTwoBoxes(player.x - 1, player.y, player.x - 2 * 1, player.y)) { // left       
+            clearCoordinates.x = player.x * BOX_SIZE;
+            clearCoordinates.y = player.y * BOX_SIZE;
             player.x -= 1;
             if (overlapsBox(player.x, player.y) && !overlapsWall(player.x - 1, player.y)) {
                 boxArray[boxIndex].x -= 1;
                 document.getElementById('slide').play();
             }
         } else if (keyPressed == 38 && !overlapsWall(player.x, player.y - 1) && !overlapsTwoBoxes(player.x, player.y - 1, player.x, player.y - 2 * 1)) { // up
+            clearCoordinates.x = player.x * BOX_SIZE;
+            clearCoordinates.y = player.y * BOX_SIZE;
             player.y -= 1;
             if (overlapsBox(player.x, player.y) && !overlapsWall(player.x, player.y - 1)) {
                 boxArray[boxIndex].y -= 1;
                 document.getElementById('slide').play();
             }
         } else if (keyPressed == 39 && !overlapsWall(player.x + 1, player.y) && !overlapsTwoBoxes(player.x + 1, player.y, player.x + 2 * 1, player.y)) { // right
+            clearCoordinates.x = player.x * BOX_SIZE;
+            clearCoordinates.y = player.y * BOX_SIZE;
             player.x += 1;
             if (overlapsBox(player.x, player.y) && !overlapsWall(player.x + 1, player.y)) {
                 boxArray[boxIndex].x += 1;
                 document.getElementById('slide').play();
             }
         } else if (keyPressed == 40 && !overlapsWall(player.x, player.y + 1) && !overlapsTwoBoxes(player.x, player.y + 1, player.x, player.y + 2 * 1)) { // down
+            clearCoordinates.x = player.x * BOX_SIZE;
+            clearCoordinates.y = player.y * BOX_SIZE;
             player.y += 1;
             if (overlapsBox(player.x, player.y) && !overlapsWall(player.x, player.y + 1)) {
                 boxArray[boxIndex].y += 1;

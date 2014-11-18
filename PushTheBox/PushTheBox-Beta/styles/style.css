@@ -6,6 +6,10 @@ body {
 canvas {
     border: 5px solid gray;
     display: none;
+    /*background: url('../images/grid.png');*/
+    /*background: url('../images/tile.jpg');*/
+    /*background: url('../images/tile2.jpg');*/
+    background: url('../images/tile3.jpg');
 }
 
 #credits {
