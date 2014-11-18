@@ -29,6 +29,7 @@ var ROWS;
 var COLUMNS;
 var playerStartX;
 var playerStartY;
+var imageObj = new Image();
 
 var wallImage = new Image();
 
@@ -44,6 +45,7 @@ switch (LEVEL) {
         playerStartX = 3;
         playerStartY = 2;
         wallImage.src = 'images/beaten_brick_tiled.png';
+        imageObj.src = 'images/box.png';
         break;
     case 3:
     case 0:
@@ -234,8 +236,9 @@ function CreateBox(xCoord, yCoord) {
         x: xCoord,
         y: yCoord,
         draw: function () {
-            ctx.fillStyle = 'brown';
-            ctx.fillRect(this.x * BOX_SIZE, this.y * BOX_SIZE, BOX_SIZE, BOX_SIZE);
+              ctx.drawImage(imageObj, this.x * BOX_SIZE, this.y * BOX_SIZE, BOX_SIZE, BOX_SIZE);
+//            ctx.fillStyle = 'brown';
+//            ctx.fillRect(this.x * BOX_SIZE, this.y * BOX_SIZE, BOX_SIZE, BOX_SIZE);
         }
     }
 }
