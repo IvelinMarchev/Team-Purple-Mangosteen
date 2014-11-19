@@ -16,13 +16,14 @@ canvas {
 
 body > div {
     border: 2px solid gray;
+    margin: 0 auto;
 }
 
 #credits {
     width: 900px;
     height: 550px;
     background-color: #aab4ae;
-    margin: 0;
+    margin: 0 auto;
     padding: 0;
     display: none;
 }
