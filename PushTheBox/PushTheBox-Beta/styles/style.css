@@ -1,17 +1,13 @@
 body {
     margin: 0;
-    padding: 10px;
+    padding: 5px;
     background-color: #c9c9c9;
 }
 
 canvas {
-    border: 5px solid gray;    
+    border: 5px solid gray;
     margin: 0 auto;
-    /*background: url('../images/grid.png');*/
-    /*background: url('../images/tile.jpg');*/
-    /*background: url('../images/tile2.jpg');*/
-    /*background: url('../images/tile3.jpg');*/
-    background: url('../images/tile3border.png');
+    background: url('../images/concrete_floor.jpg');
 }
 
 body > div {
@@ -33,6 +29,22 @@ body > div {
     height: 550px;
     background-color: #aab4ae;
     display: none;
+}
+
+#victory {
+    width: 900px;
+    height: 250px;
+    background-color: #aab4ae;    
+    margin-top: 150px;
+}
+
+#victory > div {
+    text-align: center;
+    display: block;
+    margin: 10px auto 50px auto;
+    width: 60%;
+    font-size: 30px;
+    padding: 5px 10px;
 }
 
 #levels {
@@ -148,20 +160,24 @@ audio {
     display: none;
 }
 
-#ingame-controls {     
+#ingame-controls {
     display: flex;
     -ms-flex-flow: row wrap;
     flex-flow: row wrap;
     justify-content: center;
-    margin-top: 10px;
+    margin-top: 5px;
 }
 
     #ingame-controls > input {
         margin: 0 20px;
-        width: auto;             
+        width: auto;
         font-size: 30px;
         height: 50px;
     }
+
+
+
+/* -----ANIMATIONS----- */
 
 @-moz-keyframes shake {
     0% {
