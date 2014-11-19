@@ -91,10 +91,18 @@ function showCanvas() {
 hideIngameControls();
 
 function resetLevel() {
-    var targetArray = [];
-    var innerWallArray = [];
-    var outerWallArray = [];
-    var boxArray = [];
+    targetArray = [];
+    innerWallArray = [];    
+    boxArray = [];
+    ctx.clearRect(BOX_SIZE, BOX_SIZE, CANVAS_WIDTH - 2 * BOX_SIZE, CANVAS_HEIGHT - 2 * BOX_SIZE);
+    player = {
+        x: playerStartX,
+        y: playerStartY,
+        draw: function () {
+            ctx.drawImage(playerImage, 0, 0, 100, 100, this.x * BOX_SIZE + 1, this.y * BOX_SIZE + 1, BOX_SIZE - 2, BOX_SIZE - 2);
+        }
+    };
+    gameLoop();
 };
 
 
