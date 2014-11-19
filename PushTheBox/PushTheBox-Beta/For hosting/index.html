@@ -1,0 +1,80 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <link href="styles/style.css" rel="stylesheet" />
+    <script type="text/javascript" src="jquery.2.1.1.min.js"></script>
+    <title>Доставка на Кадри (ДНК) v0.9</title>
+    <meta charset="utf-8" />
+
+</head>
+<body>
+    <div id="SplashScreen">
+        <h1> Доставка на Кадри (ДНК) v0.9 </h1>
+
+        <div class="start">
+            <input id="StartButton" type="button" value="Нова игра" />
+            <input id="instructions" type="button" value="Инструкции" />
+            <input id="creators" type="button" value="Създатели" />
+        </div>
+    </div>
+
+    <div id="levels">
+        <h1> Изберете ниво: </h1>
+
+        <div class="select">
+            <input id="one" type="button" value="1" />
+            <input id="two" type="button" value="2" />
+            <input id="three" type="button" value="3" />
+        </div>
+
+        <input type="button" class="button_back" value="Назад" />
+    </div>
+
+    <div id="info">
+        <div class="made">
+            <div class="nakov">Помогнете на Наков да достави кутиите с кадри в различните компании. Управеление: стрелките.</div>
+            <input type="button" class="button_back" value="Назад" />
+        </div>
+    </div>
+
+    <div id="credits">
+        <div class="made">
+            <ul>
+                <li class="artwork">Графичен дизайн: Васил Живков</li>
+                <li class="artwork">Игрова механика: Филип Колев</li>
+                <li class="artwork">Стени, кутии и колизии: Георги Марчев</li>
+                <li class="artwork">Потребителски интерфейс: Ивелин Марчев</li>
+                <li class="artwork">Звукови ефекти: <a href="http://www.freesfx.co.uk" target="_blank">http://www.freesfx.co.uk</a></li>
+            </ul>
+
+            <ul>
+                <li class="developer">Автор: Team Purple Mangosteen</li>
+                <li class="developer"><a href="https://softuni.bg/" target="_blank">Софтуерен Университет</a></li>
+                <li class="developer">Вижте целия код в <a href="https://github.com/odschulz/Team-Purple-Mangosteen/tree/master/PushTheBox" target="_blank">GitHub</a></li>
+            </ul>
+            <input type="button" class="button_back" value="Назад" />
+        </div>
+    </div>
+
+    <section id="container">
+        <canvas id="playfield"></canvas>
+    </section>
+
+    <div id="ingame-controls">
+        <input type="button" value="&#65513; Главно меню" onclick="window.location.reload()" />
+        <input type="button" id="reload" value="&#8635; Презареди нивото" />
+    </div>
+
+    <audio id="footsteps">
+        <source src="http://www.freesfx.co.uk/rx2/mp3s/5/5464_1335188036.mp3" />
+    </audio>
+
+    <audio id="slide">
+        <source src="http://www.freesfx.co.uk/rx2/mp3s/3/4064_1329738773.mp3" />
+    </audio>
+
+    <script src="scripts/push-the-box.js"></script>
+
+
+</body>
+</html>

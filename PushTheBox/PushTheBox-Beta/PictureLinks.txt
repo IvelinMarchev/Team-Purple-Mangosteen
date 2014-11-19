@@ -1,3 +1,22 @@
 Texture:
 http://i159.photobucket.com/albums/t151/Maniac1000/textures_skins/morester_grass.jpg
 http://texturelib.com/Textures/concrete/floor/concrete_floor_0052_01_preview.jpg
+
+Box image:
+http://prikachi.com/images/292/7731292h.png
+
+Player image:
+http://prikachi.com/images/293/7731293u.jpg
+
+Target image:
+http://img2.wikia.nocookie.net/__cb20100923124601/headhuntersholosuite/images/9/90/Stargate_portal.gif
+
+Wall images:
+http://gamedesign.wdfiles.com/local--files/spriteart:sprite-art-101-brick-wall-i/beaten_brick_tiled.png
+http://gamedesign.wdfiles.com/local--files/spriteart:sprite-art-101-brick-wall-i/brick_wall_tiled_perfect.png
+
+Footsteps sound:
+http://www.freesfx.co.uk/rx2/mp3s/5/5464_1335188036.mp3
+
+Dragging sound:
+http://www.freesfx.co.uk/rx2/mp3s/3/4064_1329738773.mp3

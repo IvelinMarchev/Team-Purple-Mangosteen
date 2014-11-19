@@ -1,0 +1,282 @@
+body {
+    margin: 0;
+    padding: 5px;
+    background-color: #c9c9c9;
+}
+
+canvas {
+    border: 5px solid gray;
+    margin: 0 auto;
+    background: url('http://texturelib.com/Textures/concrete/floor/concrete_floor_0052_01_preview.jpg');
+}
+
+body > div {
+    border: 2px solid gray;
+    margin: 0 auto;
+}
+
+#credits {
+    width: 900px;
+    height: 550px;
+    background-color: #aab4ae;
+    margin: 0 auto;
+    padding: 0;
+    display: none;
+}
+
+#info {
+    width: 900px;
+    height: 550px;
+    background-color: #aab4ae;
+    display: none;
+}
+
+#victory {
+    width: 900px;
+    height: 250px;
+    background-color: #aab4ae;    
+    margin-top: 150px;
+}
+
+#victory > div {
+    text-align: center;
+    display: block;
+    margin: 10px auto 50px auto;
+    width: 60%;
+    font-size: 30px;
+    padding: 5px 10px;
+}
+
+#levels {
+    width: 900px;
+    height: 550px;
+    background-color: #aab4ae;
+    display: none;
+}
+
+.nakov {
+    color: #682300;
+    font-size: 25px;
+    margin: auto;
+    width: 550px;
+    margin-bottom: 50px;
+}
+
+ul {
+    list-style: none;
+    margin-bottom: 40px;
+}
+
+    ul li {
+        display: block;
+    }
+
+.made {
+    padding-top: 60px;
+}
+
+.artwork {
+    font-size: 23px;
+    color: #ff611b;
+    text-align: center;
+}
+
+.developer {
+    font-size: 23px;
+    color: #bd52f0;
+    text-align: center;
+}
+
+.button_back {
+    color: black;
+    border: 1px solid black;
+    text-decoration: none;
+    margin: 0 auto;
+    font-size: 30px;
+    display: block;
+}
+
+#SplashScreen {
+    width: 900px;
+    height: 550px;
+    background-image: url("http://gamedesign.wdfiles.com/local--files/spriteart:sprite-art-101-brick-wall-i/brick_wall_tiled_perfect.png");
+}
+
+h1 {
+    text-align: center;
+    color: #ffffff;
+    font-size: 40px;
+    background-color: #80808F;
+    margin: 0;
+}
+
+.start {
+    display: block;
+    width: 150px;
+    margin: 50px auto;
+    font-size: 50px;
+}
+
+.select {
+    display: block;
+    width: 150px;
+    margin: 0 auto 50px auto;
+    font-size: 50px;
+}
+
+input {
+    border: 1px solid #80808F;
+    height: 50px;
+    width: 150px;
+    font-size: 22px;
+}
+
+    input:hover {
+        background-color: #c9c9c9;
+        cursor: pointer;
+        -moz-animation-name: shake;
+        -o-animation-name: shake;
+        -webkit-animation-name: shake;
+        animation-name: shake;
+        -moz-animation-delay: 0.0s;
+        -o-animation-delay: 0.0s;
+        -webkit-animation-delay: 0.0s;
+        animation-delay: 0.0s;
+        -moz-animation-duration: 0.50s;
+        -o-animation-duration: 0.50s;
+        -webkit-animation-duration: 0.50s;
+        animation-duration: 0.50s;
+        -moz-animation-iteration-count: initial;
+        -o-animation-iteration-count: initial;
+        -webkit-animation-iteration-count: initial;
+        animation-iteration-count: initial;
+        -moz-animation-timing-function: linear;
+        -o-animation-timing-function: linear;
+        -webkit-animation-timing-function: linear;
+        animation-timing-function: linear;
+    }
+
+audio {
+    display: none;
+}
+
+#ingame-controls {
+    display: flex;
+    -ms-flex-flow: row wrap;
+    flex-flow: row wrap;
+    justify-content: center;
+    margin-top: 5px;
+}
+
+    #ingame-controls > input {
+        margin: 0 20px;
+        width: auto;
+        font-size: 30px;
+        height: 50px;
+    }
+
+
+
+/* -----ANIMATIONS----- */
+
+@-moz-keyframes shake {
+    0% {
+        -moz-transform: rotate(2deg);
+    }
+
+    15% {
+        -moz-transform: rotate(-2deg);
+    }
+
+    30% {
+        -moz-transform: rotate(2deg);
+    }
+
+    45% {
+        -moz-transform: rotate(-2deg);
+    }
+
+    60% {
+        -moz-transform: rotate(2deg);
+    }
+
+    75% {
+        -moz-transform: rotate(-2deg);
+    }
+}
+
+@keyframes shake {
+    0% {
+        -ms-transform: rotate(2deg);
+        -o-transform: rotate(2deg);
+        -moz-transform: rotate(2deg);
+        -webkit-transform: rotate(2deg);
+        transform: rotate(2deg);
+    }
+
+    15% {
+        -ms-transform: rotate(-2deg);
+        -o-transform: rotate(-2deg);
+        -moz-transform: rotate(-2deg);
+        -webkit-transform: rotate(-2deg);
+        transform: rotate(-2deg);
+    }
+
+    30% {
+        -ms-transform: rotate(2deg);
+        -o-transform: rotate(2deg);
+        -moz-transform: rotate(2deg);
+        -webkit-transform: rotate(2deg);
+        transform: rotate(2deg);
+    }
+
+    45% {
+        -ms-transform: rotate(-2deg);
+        -o-transform: rotate(-2deg);
+        -moz-transform: rotate(-2deg);
+        -webkit-transform: rotate(-2deg);
+        transform: rotate(-2deg);
+    }
+
+    60% {
+        -ms-transform: rotate(2deg);
+        -o-transform: rotate(2deg);
+        -moz-transform: rotate(2deg);
+        -webkit-transform: rotate(2deg);
+        transform: rotate(2deg);
+    }
+
+    75% {
+        -ms-transform: rotate(-2deg);
+        -o-transform: rotate(-2deg);
+        -moz-transform: rotate(-2deg);
+        -webkit-transform: rotate(-2deg);
+        transform: rotate(-2deg);
+    }
+}
+
+@-webkit-keyframes shake {
+    0% {
+        -webkit-transform: rotate(2deg);
+    }
+
+    15% {
+        -webkit-transform: rotate(-2deg);
+    }
+
+    30% {
+        -webkit-transform: rotate(2deg);
+    }
+
+    45% {
+        -webkit-transform: rotate(-2deg);
+    }
+
+    60% {
+        -webkit-transform: rotate(2deg);
+    }
+
+    75% {
+        -webkit-transform: rotate(-2deg);
+    }
+}
