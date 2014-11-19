@@ -1,12 +1,12 @@
 body {
     margin: 0;
-    padding: 20px;
+    padding: 10px;
     background-color: #c9c9c9;
 }
 
 canvas {
-    border: 5px solid gray;
-    display: none;
+    border: 5px solid gray;    
+    margin: 0 auto;
     /*background: url('../images/grid.png');*/
     /*background: url('../images/tile.jpg');*/
     /*background: url('../images/tile2.jpg');*/
@@ -19,8 +19,8 @@ body > div {
 }
 
 #credits {
-    width: 680px;
-    height: 640px;
+    width: 900px;
+    height: 550px;
     background-color: #aab4ae;
     margin: 0;
     padding: 0;
@@ -28,21 +28,21 @@ body > div {
 }
 
 #info {
-    width: 680px;
-    height: 640px;
+    width: 900px;
+    height: 550px;
     background-color: #aab4ae;
     display: none;
 }
 
 #levels {
-    width: 680px;
-    height: 640px;
+    width: 900px;
+    height: 550px;
     background-color: #aab4ae;
     display: none;
 }
 
 .nakov {
-    color: #ff611b;
+    color: #682300;
     font-size: 25px;
     margin: auto;
     width: 550px;
@@ -51,6 +51,7 @@ body > div {
 
 ul {
     list-style: none;
+    margin-bottom: 40px;
 }
 
     ul li {
@@ -77,16 +78,15 @@ ul {
     color: black;
     border: 1px solid black;
     text-decoration: none;
-    margin-left: 270px;
+    margin: 0 auto;
     font-size: 30px;
+    display: block;
 }
 
 #SplashScreen {
-    width: 280px;
-    height: 390px;
+    width: 900px;
+    height: 550px;
     background-image: url("../images/brick_wall_tiled_perfect.png");
-    padding: 200px;
-    padding-top: 50px !important;
 }
 
 h1 {
@@ -99,16 +99,15 @@ h1 {
 
 .start {
     display: block;
-    width: 50px;
-    margin-left: 70px;
+    width: 150px;
+    margin: 50px auto;
     font-size: 50px;
-    float: left;
 }
 
 .select {
     display: block;
-    width: 170px;
-    margin: auto;
+    width: 150px;
+    margin: 0 auto 50px auto;
     font-size: 50px;
 }
 
@@ -148,6 +147,20 @@ audio {
     display: none;
 }
 
+#ingame-controls {     
+    display: flex;
+    -ms-flex-flow: row wrap;
+    flex-flow: row wrap;
+    justify-content: center;
+    margin-top: 10px;
+}
+
+    #ingame-controls > input {
+        margin: 0 20px;
+        width: auto;             
+        font-size: 30px;
+        height: 50px;
+    }
 
 @-moz-keyframes shake {
     0% {
