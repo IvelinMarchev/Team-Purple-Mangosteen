@@ -6,16 +6,16 @@ $("#StartButton").click(function () {
 });
 
 $("#one").click(function () {
+    setLevel(1);
     showCanvas();
     $("#levels").hide();
-    setLevel(1);
     gameLoop();
 });
 
 $("#two").click(function () {
+    setLevel(2);
     showCanvas()
     $("#levels").hide();
-    setLevel(2);
     gameLoop();
 });
 
@@ -46,6 +46,7 @@ $(".button_back").click(function () {
 });
 
 
+
 /* -----GLOBAL VARIABLES----- */
 
 var c = document.getElementById("playfield");
@@ -70,7 +71,7 @@ var clearCoordinates = { x: 0, y: 0 };
 var playerDirection;
 var picX;
 var picY;
-var sameDirectionCount = 1 ;
+var sameDirectionCount = 1;
 
 var wallImage = new Image();
 var boxImage = new Image();
@@ -86,7 +87,6 @@ var playerRIGHTImage3 = new Image();
 var playerLEFTImage1 = new Image();
 var playerLEFTImage2 = new Image();
 var playerLEFTImage3 = new Image();
-var playerImage;
 var targetImage = new Image();
 
 boxImage.src = 'images/box.jpg';
@@ -102,37 +102,11 @@ playerRIGHTImage3.src = 'images/choveche3.jpg';
 playerLEFTImage1.src = 'images/choveche4.jpg';
 playerLEFTImage2.src = 'images/choveche5.jpg';
 playerLEFTImage3.src = 'images/choveche6.jpg';
-
 targetImage.src = 'images/target.jpg';
 
 var controls = document.getElementById('ingame-controls');
 
-function hideIngameControls() {
-    controls.setAttribute('style', 'visibility: hidden');
-    document.getElementById('playfield').setAttribute('style', 'display: none');
-}
-
-function showCanvas() {
-    document.getElementById('playfield').removeAttribute('style');
-    document.getElementById('playfield').setAttribute('style', 'display: block');
-}
-
 hideIngameControls();
-
-function resetLevel() {
-    targetArray = [];
-    innerWallArray = [];    
-    boxArray = [];
-    ctx.clearRect(BOX_SIZE, BOX_SIZE, CANVAS_WIDTH - 2 * BOX_SIZE, CANVAS_HEIGHT - 2 * BOX_SIZE);
-    player = {
-        x: playerStartX,
-        y: playerStartY,
-        draw: function () {
-            ctx.drawImage(playerImage, 0, 0, 100, 100, this.x * BOX_SIZE + 1, this.y * BOX_SIZE + 1, BOX_SIZE - 2, BOX_SIZE - 2);
-        }
-    };
-    gameLoop();
-};
 
 
 
@@ -196,117 +170,12 @@ function setLevel(input) {
 
     boxImage.width = BOX_SIZE;
 
-    player = {
-        x: playerStartX,
-        y: playerStartY,
-        draw: function () {
-        switch (playerDirection) {
-            case 37:
-                picX= 284;
-                picY= 352;
-                switch (sameDirectionCount){
-                    case 1:
-                        playerImage = playerLEFTImage1;
-                        break;
-                    case 2:
-                        playerImage = playerLEFTImage2;
-                        break;
-                    case 3:
-                        playerImage = playerLEFTImage3;
-                        break;
-                    case 4:
-                        playerImage = playerLEFTImage2;
-                        break;
-                }
-                break;
-            case 38:
-                picX= 352;
-                picY= 284;
-                switch (sameDirectionCount){
-                    case 1:
-                        playerImage = playerUPImage1;
-                        break;
-                    case 2:
-                        playerImage = playerUPImage2;
-                        break;
-                    case 3:
-                        playerImage = playerUPImage3;
-                        break;
-                    case 4:
-                        playerImage = playerUPImage2;
-                        break;
-                }
-                break;
-            case 39:
-                picX= 284;
-                picY= 352;
-                switch (sameDirectionCount){
-                    case 1:
-                        playerImage = playerRIGHTImage1;
-                        break;
-                    case 2:
-                        playerImage = playerRIGHTImage2;
-                        break;
-                    case 3:
-                        playerImage = playerRIGHTImage3;
-                        break;
-                    case 4:
-                        playerImage = playerRIGHTImage2;
-                        break;
-                }
-                break;
-            case 40:
-                picX= 352;
-                picY= 284;
-                switch (sameDirectionCount){
-                    case 1:
-                        playerImage = playerDOWNImage1;
-                        break;
-                    case 2:
-                        playerImage = playerDOWNImage2;
-                        break;
-                    case 3:
-                        playerImage = playerDOWNImage3;
-                        break;
-                    case 4:
-                        playerImage = playerDOWNImage2;
-                        break;
-                }
-                break;
-            default:
-                picX= 284;
-                picY= 352;
-                switch (sameDirectionCount){
-                    case 1:
-                        playerImage = playerRIGHTImage1;
-                        break;
-                    case 2:
-                        playerImage = playerRIGHTImage2;
-                        break;
-                    case 3:
-                        playerImage = playerRIGHTImage3;
-                        break;
-                    case 4:
-                        playerImage = playerRIGHTImage2;
-                        break;
-                }
-                break;
-        }
-            ctx.drawImage(playerImage,0 , 0 ,picX, picY, this.x * BOX_SIZE + 1, this.y * BOX_SIZE + 1, BOX_SIZE - 2, BOX_SIZE - 2);
-
-        }
-    };
-
-
+    setPlayerPosition();
 }
 
 
 
-/* -----PLAYER----- */
-
-
-
-
+/* ----- GAME LOOP----- */
 
 function gameLoop() {
     addObjects(LEVEL);
@@ -374,7 +243,28 @@ function addObjects(LEVEL) {
 
 
 
-/* -----DRAW GRID LAYOUT----- */
+/* -----RESET LEVEL----- */
+
+function resetLevel() {
+    targetArray = [];
+    innerWallArray = [];
+    boxArray = [];
+    ctx.clearRect(BOX_SIZE, BOX_SIZE, CANVAS_WIDTH - 2 * BOX_SIZE, CANVAS_HEIGHT - 2 * BOX_SIZE);
+    sameDirectionCount = 1;
+    playerDirection = 39;
+    setPlayerPosition();
+    gameLoop();
+};
+
+function hideIngameControls() {
+    controls.setAttribute('style', 'visibility: hidden');
+    document.getElementById('playfield').setAttribute('style', 'display: none');
+}
+
+function showCanvas() {
+    document.getElementById('playfield').removeAttribute('style');
+    document.getElementById('playfield').setAttribute('style', 'display: block');
+}
 
 function clearCanvas() {
     if (clearCoordinates.x > 0 && clearCoordinates.y > 0) {
@@ -483,6 +373,184 @@ function drawTargets() {
 
 
 
+/* -----SET PLAYER POSITION AND IMAGE----- */
+
+function setPlayerPosition() {
+    player = {
+        x: playerStartX,
+        y: playerStartY,
+        draw: function () {
+            switch (playerDirection) {
+                case 37:
+                    picX = 284;
+                    picY = 352;
+                    switch (sameDirectionCount) {
+                        case 1:
+                            playerImage = playerLEFTImage1;
+                            break;
+                        case 2:
+                            playerImage = playerLEFTImage2;
+                            break;
+                        case 3:
+                            playerImage = playerLEFTImage3;
+                            break;
+                        case 4:
+                            playerImage = playerLEFTImage2;
+                            break;
+                    }
+                    break;
+                case 38:
+                    picX = 352;
+                    picY = 284;
+                    switch (sameDirectionCount) {
+                        case 1:
+                            playerImage = playerUPImage1;
+                            break;
+                        case 2:
+                            playerImage = playerUPImage2;
+                            break;
+                        case 3:
+                            playerImage = playerUPImage3;
+                            break;
+                        case 4:
+                            playerImage = playerUPImage2;
+                            break;
+                    }
+                    break;
+                case 39:
+                    picX = 284;
+                    picY = 352;
+                    switch (sameDirectionCount) {
+                        case 1:
+                            playerImage = playerRIGHTImage1;
+                            break;
+                        case 2:
+                            playerImage = playerRIGHTImage2;
+                            break;
+                        case 3:
+                            playerImage = playerRIGHTImage3;
+                            break;
+                        case 4:
+                            playerImage = playerRIGHTImage2;
+                            break;
+                    }
+                    break;
+                case 40:
+                    picX = 352;
+                    picY = 284;
+                    switch (sameDirectionCount) {
+                        case 1:
+                            playerImage = playerDOWNImage1;
+                            break;
+                        case 2:
+                            playerImage = playerDOWNImage2;
+                            break;
+                        case 3:
+                            playerImage = playerDOWNImage3;
+                            break;
+                        case 4:
+                            playerImage = playerDOWNImage2;
+                            break;
+                    }
+                    break;
+                default:
+                    picX = 284;
+                    picY = 352;
+                    switch (sameDirectionCount) {
+                        case 1:
+                            playerImage = playerRIGHTImage1;
+                            break;
+                        case 2:
+                            playerImage = playerRIGHTImage2;
+                            break;
+                        case 3:
+                            playerImage = playerRIGHTImage3;
+                            break;
+                        case 4:
+                            playerImage = playerRIGHTImage2;
+                            break;
+                    }
+                    break;
+            }
+            ctx.drawImage(playerImage, 0, 0, picX, picY, this.x * BOX_SIZE + 1, this.y * BOX_SIZE + 1, BOX_SIZE - 2, BOX_SIZE - 2);
+
+        }
+    };
+}
+
+
+
+/* -----PLAYER MOVEMENT----- */
+
+document.addEventListener("keydown", keyDownHandler, false);
+
+function keyDownHandler(event) {
+    var keyPressed = event.keyCode;
+    if (!gameOver) {
+        if (keyPressed == 37 && !overlapsWall(player.x - 1, player.y) && !overlapsTwoBoxes(player.x - 1, player.y, player.x - 2 * 1, player.y)) { // left       
+            clearCoordinates.x = player.x * BOX_SIZE;
+            clearCoordinates.y = player.y * BOX_SIZE;
+            player.x -= 1;
+            playerDirection = 37;
+            sameDirectionCount += 1;
+            if (sameDirectionCount >= 4) {
+                sameDirectionCount = 1;
+            }
+            if (overlapsBox(player.x, player.y) && !overlapsWall(player.x - 1, player.y)) {
+                boxArray[boxIndex].x -= 1;
+                document.getElementById('slide').play();
+            }
+        } else if (keyPressed == 38 && !overlapsWall(player.x, player.y - 1) && !overlapsTwoBoxes(player.x, player.y - 1, player.x, player.y - 2 * 1)) { // up
+            clearCoordinates.x = player.x * BOX_SIZE;
+            clearCoordinates.y = player.y * BOX_SIZE;
+            player.y -= 1;
+            playerDirection = 38;
+            sameDirectionCount += 1;
+            if (sameDirectionCount >= 4) {
+                sameDirectionCount = 1;
+            }
+            if (overlapsBox(player.x, player.y) && !overlapsWall(player.x, player.y - 1)) {
+                boxArray[boxIndex].y -= 1;
+                document.getElementById('slide').play();
+            }
+        } else if (keyPressed == 39 && !overlapsWall(player.x + 1, player.y) && !overlapsTwoBoxes(player.x + 1, player.y, player.x + 2 * 1, player.y)) { // right
+            clearCoordinates.x = player.x * BOX_SIZE;
+            clearCoordinates.y = player.y * BOX_SIZE;
+            player.x += 1;
+            playerDirection = 39;
+            sameDirectionCount += 1;
+            if (sameDirectionCount >= 4) {
+                sameDirectionCount = 1;
+            }
+            if (overlapsBox(player.x, player.y) && !overlapsWall(player.x + 1, player.y)) {
+                boxArray[boxIndex].x += 1;
+                document.getElementById('slide').play();
+            }
+        } else if (keyPressed == 40 && !overlapsWall(player.x, player.y + 1) && !overlapsTwoBoxes(player.x, player.y + 1, player.x, player.y + 2 * 1)) { // down
+            clearCoordinates.x = player.x * BOX_SIZE;
+            clearCoordinates.y = player.y * BOX_SIZE;
+            player.y += 1;
+            playerDirection = 40;
+            sameDirectionCount += 1;
+            if (sameDirectionCount >= 5) {
+                sameDirectionCount = 1;
+            }
+            if (overlapsBox(player.x, player.y) && !overlapsWall(player.x, player.y + 1)) {
+                boxArray[boxIndex].y += 1;
+                document.getElementById('slide').play();
+            }
+        }
+
+        if (keyPressed == 37 || keyPressed == 38 || keyPressed == 39 || keyPressed == 40) {
+            document.getElementById('footsteps').play();
+        }
+        refreshScreen();
+    }
+
+}
+
+
+
 /* -----COLLISION CHECKS----- */
 
 //this checks if an object overlaps with a WALL by comparing X,Y coordinates
@@ -537,77 +605,6 @@ function overlapsTwoBoxes(objX, objY, directionX, directionY) {
         isOverlapping = 0;
     }
     return isOverlapping;
-}
-
-
-
-/* -----PLAYER MOVEMENT----- */
-
-document.addEventListener("keydown", keyDownHandler, false);
-
-function keyDownHandler(event) {
-    var keyPressed = event.keyCode;
-    if (!gameOver) {
-        if (keyPressed == 37 && !overlapsWall(player.x - 1, player.y) && !overlapsTwoBoxes(player.x - 1, player.y, player.x - 2 * 1, player.y)) { // left       
-            clearCoordinates.x = player.x * BOX_SIZE;
-            clearCoordinates.y = player.y * BOX_SIZE;
-            player.x -= 1;
-            playerDirection = 37;
-            sameDirectionCount +=1;
-            if(sameDirectionCount >= 4){
-                sameDirectionCount = 1;
-            }
-            if (overlapsBox(player.x, player.y) && !overlapsWall(player.x - 1, player.y)) {
-                boxArray[boxIndex].x -= 1;
-                document.getElementById('slide').play();
-            }
-        } else if (keyPressed == 38 && !overlapsWall(player.x, player.y - 1) && !overlapsTwoBoxes(player.x, player.y - 1, player.x, player.y - 2 * 1)) { // up
-            clearCoordinates.x = player.x * BOX_SIZE;
-            clearCoordinates.y = player.y * BOX_SIZE;
-            player.y -= 1;
-            playerDirection = 38;
-            sameDirectionCount +=1;
-            if(sameDirectionCount >= 4){
-                sameDirectionCount = 1;
-            }
-            if (overlapsBox(player.x, player.y) && !overlapsWall(player.x, player.y - 1)) {
-                boxArray[boxIndex].y -= 1;
-                document.getElementById('slide').play();
-            }
-        } else if (keyPressed == 39 && !overlapsWall(player.x + 1, player.y) && !overlapsTwoBoxes(player.x + 1, player.y, player.x + 2 * 1, player.y)) { // right
-            clearCoordinates.x = player.x * BOX_SIZE;
-            clearCoordinates.y = player.y * BOX_SIZE;
-            player.x += 1;
-            playerDirection = 39;
-            sameDirectionCount +=1;
-            if(sameDirectionCount >= 4){
-                sameDirectionCount = 1;
-            }
-            if (overlapsBox(player.x, player.y) && !overlapsWall(player.x + 1, player.y)) {
-                boxArray[boxIndex].x += 1;
-                document.getElementById('slide').play();
-            }
-        } else if (keyPressed == 40 && !overlapsWall(player.x, player.y + 1) && !overlapsTwoBoxes(player.x, player.y + 1, player.x, player.y + 2 * 1)) { // down
-            clearCoordinates.x = player.x * BOX_SIZE;
-            clearCoordinates.y = player.y * BOX_SIZE;
-            player.y += 1;
-            playerDirection = 40;
-            sameDirectionCount +=1;
-            if(sameDirectionCount >= 5){
-                sameDirectionCount = 1;
-            }
-            if (overlapsBox(player.x, player.y) && !overlapsWall(player.x, player.y + 1)) {
-                boxArray[boxIndex].y += 1;
-                document.getElementById('slide').play();
-            }
-        }
-
-        if (keyPressed == 37 || keyPressed == 38 || keyPressed == 39 || keyPressed == 40) {
-            document.getElementById('footsteps').play();
-        }
-        refreshScreen();
-    }
-
 }
 
 

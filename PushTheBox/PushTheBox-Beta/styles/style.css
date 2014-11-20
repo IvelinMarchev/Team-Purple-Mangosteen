@@ -34,18 +34,18 @@ body > div {
 #victory {
     width: 900px;
     height: 250px;
-    background-color: #aab4ae;    
+    background-color: #aab4ae;
     margin-top: 150px;
 }
 
-#victory > div {
-    text-align: center;
-    display: block;
-    margin: 10px auto 50px auto;
-    width: 60%;
-    font-size: 30px;
-    padding: 5px 10px;
-}
+    #victory > div {
+        text-align: center;
+        display: block;
+        margin: 10px auto 50px auto;
+        width: 60%;
+        font-size: 30px;
+        padding: 5px 10px;
+    }
 
 #levels {
     width: 900px;
@@ -65,6 +65,7 @@ body > div {
 ul {
     list-style: none;
     margin-bottom: 40px;
+    padding: 0;
 }
 
     ul li {
@@ -176,6 +177,30 @@ audio {
     }
 
 
+div.leftPoster {
+    float: left;
+    margin-top: 80px;
+    margin-left: 35px;
+}
+
+    div.leftPoster img {
+        width: 150px;
+        height: 150px;
+        margin-left: -5px;
+    }
+
+div.rightPoster {
+    float: right;
+    margin-top: -210px;
+    margin-right: 120px;
+}
+
+    div.rightPoster img {
+        width: 150px;
+        height: 150px;
+    }
+
+
 
 /* -----ANIMATIONS----- */
 
@@ -279,34 +304,4 @@ audio {
     75% {
         -webkit-transform: rotate(-2deg);
     }
-}
-
-
-div.leftPoster{
-    float: left;
-    margin-top: 80px;
-    margin-left: 35px;
-}
-
-div.leftPoster img{
-    width: 150px;
-    height: 150px;
-    margin-left: -5px;
-}
-
-div.rightPoster{
-    float: right;
-    margin-top: -210px;
-    margin-right: 120px;
-
-}
-
-div.rightPoster img{
-    width: 150px;
-    height: 150px;
-
-}
-
-ul {
-    padding: 0;
 }
