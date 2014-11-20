@@ -67,14 +67,43 @@ var playerStartY;
 var player;
 var clearCoordinates = { x: 0, y: 0 };
 
+var playerDirection;
+var picX;
+var picY;
+var sameDirectionCount = 1 ;
+
 var wallImage = new Image();
 var boxImage = new Image();
-var playerImage = new Image();
+var playerUPImage1 = new Image();
+var playerUPImage2 = new Image();
+var playerUPImage3 = new Image();
+var playerDOWNImage1 = new Image();
+var playerDOWNImage2 = new Image();
+var playerDOWNImage3 = new Image();
+var playerRIGHTImage1 = new Image();
+var playerRIGHTImage2 = new Image();
+var playerRIGHTImage3 = new Image();
+var playerLEFTImage1 = new Image();
+var playerLEFTImage2 = new Image();
+var playerLEFTImage3 = new Image();
+var playerImage;
 var targetImage = new Image();
 
-boxImage.src = 'images/cartoon_wooden_crate_0.png';
-playerImage.src = 'images/nakov.jpg';
-targetImage.src = 'images/Stargate_portal.gif';
+boxImage.src = 'images/box.jpg';
+playerUPImage1.src = 'images/chovecheUP1.jpg';
+playerUPImage2.src = 'images/chovecheUP2.jpg';
+playerUPImage3.src = 'images/chovecheUP3.jpg';
+playerDOWNImage1.src = 'images/chovecheDOWN.jpg';
+playerDOWNImage2.src = 'images/chovecheDOWN2.jpg';
+playerDOWNImage3.src = 'images/chovecheDOWN3.jpg';
+playerRIGHTImage1.src = 'images/choveche.jpg';
+playerRIGHTImage2.src = 'images/choveche2.jpg';
+playerRIGHTImage3.src = 'images/choveche3.jpg';
+playerLEFTImage1.src = 'images/choveche4.jpg';
+playerLEFTImage2.src = 'images/choveche5.jpg';
+playerLEFTImage3.src = 'images/choveche6.jpg';
+
+targetImage.src = 'images/target.jpg';
 
 var controls = document.getElementById('ingame-controls');
 
@@ -171,14 +200,113 @@ function setLevel(input) {
         x: playerStartX,
         y: playerStartY,
         draw: function () {
-            ctx.drawImage(playerImage, 0, 0, 100, 100, this.x * BOX_SIZE + 1, this.y * BOX_SIZE + 1, BOX_SIZE - 2, BOX_SIZE - 2);
+        switch (playerDirection) {
+            case 37:
+                picX= 284;
+                picY= 352;
+                switch (sameDirectionCount){
+                    case 1:
+                        playerImage = playerLEFTImage1;
+                        break;
+                    case 2:
+                        playerImage = playerLEFTImage2;
+                        break;
+                    case 3:
+                        playerImage = playerLEFTImage3;
+                        break;
+                    case 4:
+                        playerImage = playerLEFTImage2;
+                        break;
+                }
+                break;
+            case 38:
+                picX= 352;
+                picY= 284;
+                switch (sameDirectionCount){
+                    case 1:
+                        playerImage = playerUPImage1;
+                        break;
+                    case 2:
+                        playerImage = playerUPImage2;
+                        break;
+                    case 3:
+                        playerImage = playerUPImage3;
+                        break;
+                    case 4:
+                        playerImage = playerUPImage2;
+                        break;
+                }
+                break;
+            case 39:
+                picX= 284;
+                picY= 352;
+                switch (sameDirectionCount){
+                    case 1:
+                        playerImage = playerRIGHTImage1;
+                        break;
+                    case 2:
+                        playerImage = playerRIGHTImage2;
+                        break;
+                    case 3:
+                        playerImage = playerRIGHTImage3;
+                        break;
+                    case 4:
+                        playerImage = playerRIGHTImage2;
+                        break;
+                }
+                break;
+            case 40:
+                picX= 352;
+                picY= 284;
+                switch (sameDirectionCount){
+                    case 1:
+                        playerImage = playerDOWNImage1;
+                        break;
+                    case 2:
+                        playerImage = playerDOWNImage2;
+                        break;
+                    case 3:
+                        playerImage = playerDOWNImage3;
+                        break;
+                    case 4:
+                        playerImage = playerDOWNImage2;
+                        break;
+                }
+                break;
+            default:
+                picX= 284;
+                picY= 352;
+                switch (sameDirectionCount){
+                    case 1:
+                        playerImage = playerRIGHTImage1;
+                        break;
+                    case 2:
+                        playerImage = playerRIGHTImage2;
+                        break;
+                    case 3:
+                        playerImage = playerRIGHTImage3;
+                        break;
+                    case 4:
+                        playerImage = playerRIGHTImage2;
+                        break;
+                }
+                break;
+        }
+            ctx.drawImage(playerImage,0 , 0 ,picX, picY, this.x * BOX_SIZE + 1, this.y * BOX_SIZE + 1, BOX_SIZE - 2, BOX_SIZE - 2);
+
         }
     };
+
+
 }
 
 
 
 /* -----PLAYER----- */
+
+
+
+
 
 function gameLoop() {
     addObjects(LEVEL);
@@ -322,7 +450,7 @@ function CreateBox(xCoord, yCoord) {
         x: xCoord,
         y: yCoord,
         draw: function () {
-            ctx.drawImage(boxImage, 0, 0, 100, 100, this.x * BOX_SIZE + 1, this.y * BOX_SIZE + 1, BOX_SIZE - 2, BOX_SIZE - 2);
+            ctx.drawImage(boxImage, this.x * BOX_SIZE + 1, this.y * BOX_SIZE + 1, BOX_SIZE - 2, BOX_SIZE - 2);
         }
     };
 }
@@ -424,6 +552,11 @@ function keyDownHandler(event) {
             clearCoordinates.x = player.x * BOX_SIZE;
             clearCoordinates.y = player.y * BOX_SIZE;
             player.x -= 1;
+            playerDirection = 37;
+            sameDirectionCount +=1;
+            if(sameDirectionCount >= 4){
+                sameDirectionCount = 1;
+            }
             if (overlapsBox(player.x, player.y) && !overlapsWall(player.x - 1, player.y)) {
                 boxArray[boxIndex].x -= 1;
                 document.getElementById('slide').play();
@@ -432,6 +565,11 @@ function keyDownHandler(event) {
             clearCoordinates.x = player.x * BOX_SIZE;
             clearCoordinates.y = player.y * BOX_SIZE;
             player.y -= 1;
+            playerDirection = 38;
+            sameDirectionCount +=1;
+            if(sameDirectionCount >= 4){
+                sameDirectionCount = 1;
+            }
             if (overlapsBox(player.x, player.y) && !overlapsWall(player.x, player.y - 1)) {
                 boxArray[boxIndex].y -= 1;
                 document.getElementById('slide').play();
@@ -440,6 +578,11 @@ function keyDownHandler(event) {
             clearCoordinates.x = player.x * BOX_SIZE;
             clearCoordinates.y = player.y * BOX_SIZE;
             player.x += 1;
+            playerDirection = 39;
+            sameDirectionCount +=1;
+            if(sameDirectionCount >= 4){
+                sameDirectionCount = 1;
+            }
             if (overlapsBox(player.x, player.y) && !overlapsWall(player.x + 1, player.y)) {
                 boxArray[boxIndex].x += 1;
                 document.getElementById('slide').play();
@@ -448,6 +591,11 @@ function keyDownHandler(event) {
             clearCoordinates.x = player.x * BOX_SIZE;
             clearCoordinates.y = player.y * BOX_SIZE;
             player.y += 1;
+            playerDirection = 40;
+            sameDirectionCount +=1;
+            if(sameDirectionCount >= 5){
+                sameDirectionCount = 1;
+            }
             if (overlapsBox(player.x, player.y) && !overlapsWall(player.x, player.y + 1)) {
                 boxArray[boxIndex].y += 1;
                 document.getElementById('slide').play();

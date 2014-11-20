@@ -77,13 +77,13 @@ ul {
 
 .artwork {
     font-size: 23px;
-    color: #ff611b;
+    color: #682300;
     text-align: center;
 }
 
 .developer {
-    font-size: 23px;
-    color: #bd52f0;
+    font-size: 50px;
+    color: #5C1F31;
     text-align: center;
 }
 
@@ -279,4 +279,34 @@ audio {
     75% {
         -webkit-transform: rotate(-2deg);
     }
+}
+
+
+div.leftPoster{
+    float: left;
+    margin-top: 80px;
+    margin-left: 35px;
+}
+
+div.leftPoster img{
+    width: 150px;
+    height: 150px;
+    margin-left: -5px;
+}
+
+div.rightPoster{
+    float: right;
+    margin-top: -210px;
+    margin-right: 120px;
+
+}
+
+div.rightPoster img{
+    width: 150px;
+    height: 150px;
+
+}
+
+ul {
+    padding: 0;
 }
