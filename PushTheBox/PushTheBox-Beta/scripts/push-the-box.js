@@ -14,13 +14,27 @@ $("#one").click(function () {
 
 $("#two").click(function () {
     setLevel(2);
-    showCanvas()
+    showCanvas();
     $("#levels").hide();
     gameLoop();
 });
 
 $("#three").click(function () {
     setLevel(3);
+    showCanvas();
+    $("#levels").hide();
+    gameLoop();
+});
+
+$("#four").click(function () {
+    setLevel(4);
+    showCanvas();
+    $("#levels").hide();
+    gameLoop();
+});
+
+$("#five").click(function () {
+    setLevel(5);
     showCanvas();
     $("#levels").hide();
     gameLoop();
@@ -141,7 +155,21 @@ function setLevel(input) {
             wallImage.src = 'images/beaten_brick_tiled.png';
             break;
         case 4:
+            BOX_SIZE = 75;
+            ROWS = 7;
+            COLUMNS = 7;
+            playerStartX = 3;
+            playerStartY = 1;
+            wallImage.src = 'images/brick_wall_tiled_perfect.png';
+            break;
         case 5:
+            BOX_SIZE = 75;
+            ROWS = 8;
+            COLUMNS = 10;
+            playerStartX = 2;
+            playerStartY = 1;
+            wallImage.src = 'images/brick_wall_tiled_perfect.png';
+            break;
         default:
             BOX_SIZE = 75;
             ROWS = 8;
@@ -235,7 +263,50 @@ function addObjects(LEVEL) {
             innerWallArray.push(CreateWall(7, 6));
             break;
         case 4:
+            targetArray.push(CreateTarget(2, 5));
+            targetArray.push(CreateTarget(4, 5));
+            boxArray.push(CreateBox(3, 2));
+            boxArray.push(CreateBox(4, 2));
+            innerWallArray.push(CreateWall(1, 2));
+            innerWallArray.push(CreateWall(2, 2));
+            innerWallArray.push(CreateWall(1, 1));
+            innerWallArray.push(CreateWall(2, 1));
+            innerWallArray.push(CreateWall(4, 3));
+            innerWallArray.push(CreateWall(5, 3));
+            break;
         case 5:
+            targetArray.push(CreateTarget(7, 5));
+            targetArray.push(CreateTarget(8, 5));
+            boxArray.push(CreateBox(5, 3));
+            boxArray.push(CreateBox(5, 5));
+            innerWallArray.push(CreateWall(4, 1));
+            innerWallArray.push(CreateWall(4, 3));
+            innerWallArray.push(CreateWall(4, 4));
+            innerWallArray.push(CreateWall(4, 5));
+            innerWallArray.push(CreateWall(4, 6));
+            innerWallArray.push(CreateWall(1, 3));
+            innerWallArray.push(CreateWall(2, 3));
+            innerWallArray.push(CreateWall(3, 3));
+            innerWallArray.push(CreateWall(1, 4));
+            innerWallArray.push(CreateWall(2, 4));
+            innerWallArray.push(CreateWall(3, 4));
+            innerWallArray.push(CreateWall(1, 5));
+            innerWallArray.push(CreateWall(2, 5));
+            innerWallArray.push(CreateWall(3, 5));
+            innerWallArray.push(CreateWall(1, 6));
+            innerWallArray.push(CreateWall(2, 6));
+            innerWallArray.push(CreateWall(3, 6));
+            innerWallArray.push(CreateWall(7, 1));
+            innerWallArray.push(CreateWall(7, 2));
+            innerWallArray.push(CreateWall(7, 3));
+            innerWallArray.push(CreateWall(7, 4));
+            innerWallArray.push(CreateWall(7, 6));
+            innerWallArray.push(CreateWall(8, 1));
+            innerWallArray.push(CreateWall(8, 2));
+            innerWallArray.push(CreateWall(8, 3));
+            innerWallArray.push(CreateWall(8, 4));
+            innerWallArray.push(CreateWall(8, 6));
+            break;
         default:
             break;
     }
