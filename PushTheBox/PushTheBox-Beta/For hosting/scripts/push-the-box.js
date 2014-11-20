@@ -360,7 +360,7 @@ function CreateTarget(xCoord, yCoord) {
         x: xCoord,
         y: yCoord,
         draw: function () {
-            ctx.drawImage(targetImage, 0, 0, 400, 400, this.x * BOX_SIZE + 1, this.y * BOX_SIZE + 1, BOX_SIZE - 2, BOX_SIZE - 2);
+            ctx.drawImage(targetImage, 0, 0, 400, 269, this.x * BOX_SIZE + 1, this.y * BOX_SIZE + 1, BOX_SIZE - 2, BOX_SIZE - 2);
         }
     };
 }
