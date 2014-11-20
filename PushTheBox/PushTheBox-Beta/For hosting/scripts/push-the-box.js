@@ -6,16 +6,16 @@ $("#StartButton").click(function () {
 });
 
 $("#one").click(function () {
+    setLevel(1);
     showCanvas();
     $("#levels").hide();
-    setLevel(1);
     gameLoop();
 });
 
 $("#two").click(function () {
+    setLevel(2);
     showCanvas()
     $("#levels").hide();
-    setLevel(2);
     gameLoop();
 });
 
@@ -46,6 +46,7 @@ $(".button_back").click(function () {
 });
 
 
+
 /* -----GLOBAL VARIABLES----- */
 
 var c = document.getElementById("playfield");
@@ -67,43 +68,45 @@ var playerStartY;
 var player;
 var clearCoordinates = { x: 0, y: 0 };
 
+var playerDirection;
+var picX;
+var picY;
+var sameDirectionCount = 1;
+
 var wallImage = new Image();
 var boxImage = new Image();
-var playerImage = new Image();
+var playerUPImage1 = new Image();
+var playerUPImage2 = new Image();
+var playerUPImage3 = new Image();
+var playerDOWNImage1 = new Image();
+var playerDOWNImage2 = new Image();
+var playerDOWNImage3 = new Image();
+var playerRIGHTImage1 = new Image();
+var playerRIGHTImage2 = new Image();
+var playerRIGHTImage3 = new Image();
+var playerLEFTImage1 = new Image();
+var playerLEFTImage2 = new Image();
+var playerLEFTImage3 = new Image();
 var targetImage = new Image();
 
-boxImage.src = 'http://prikachi.com/images/292/7731292h.png';
-playerImage.src = 'http://prikachi.com/images/293/7731293u.jpg';
-targetImage.src = 'http://img2.wikia.nocookie.net/__cb20100923124601/headhuntersholosuite/images/9/90/Stargate_portal.gif';
+boxImage.src = 'http://prikachi.com/images/506/7733506r.jpg';
+playerUPImage1.src = 'http://prikachi.com/images/525/7733525f.jpg';
+playerUPImage2.src = 'http://prikachi.com/images/526/7733526P.jpg';
+playerUPImage3.src = 'http://prikachi.com/images/527/7733527W.jpg';
+playerDOWNImage1.src = 'http://prikachi.com/images/521/7733521Y.jpg';
+playerDOWNImage2.src = 'http://prikachi.com/images/522/7733522Q.jpg';
+playerDOWNImage3.src = 'http://prikachi.com/images/523/7733523b.jpg';
+playerRIGHTImage1.src = 'http://prikachi.com/images/512/7733512u.jpg';
+playerRIGHTImage2.src = 'http://prikachi.com/images/513/7733513f.jpg';
+playerRIGHTImage3.src = 'http://prikachi.com/images/514/7733514D.jpg';
+playerLEFTImage1.src = 'http://prikachi.com/images/515/7733515d.jpg';
+playerLEFTImage2.src = 'http://prikachi.com/images/517/7733517T.jpg';
+playerLEFTImage3.src = 'http://prikachi.com/images/518/7733518J.jpg';
+targetImage.src = 'http://prikachi.com/images/509/7733509k.jpg';
 
 var controls = document.getElementById('ingame-controls');
 
-function hideIngameControls() {
-    controls.setAttribute('style', 'visibility: hidden');
-    document.getElementById('playfield').setAttribute('style', 'display: none');
-}
-
-function showCanvas() {
-    document.getElementById('playfield').removeAttribute('style');
-    document.getElementById('playfield').setAttribute('style', 'display: block');
-}
-
 hideIngameControls();
-
-function resetLevel() {
-    targetArray = [];
-    innerWallArray = [];    
-    boxArray = [];
-    ctx.clearRect(BOX_SIZE, BOX_SIZE, CANVAS_WIDTH - 2 * BOX_SIZE, CANVAS_HEIGHT - 2 * BOX_SIZE);
-    player = {
-        x: playerStartX,
-        y: playerStartY,
-        draw: function () {
-            ctx.drawImage(playerImage, 0, 0, 100, 100, this.x * BOX_SIZE + 1, this.y * BOX_SIZE + 1, BOX_SIZE - 2, BOX_SIZE - 2);
-        }
-    };
-    gameLoop();
-};
 
 
 
@@ -167,18 +170,12 @@ function setLevel(input) {
 
     boxImage.width = BOX_SIZE;
 
-    player = {
-        x: playerStartX,
-        y: playerStartY,
-        draw: function () {
-            ctx.drawImage(playerImage, 0, 0, 100, 100, this.x * BOX_SIZE + 1, this.y * BOX_SIZE + 1, BOX_SIZE - 2, BOX_SIZE - 2);
-        }
-    };
+    setPlayerPosition();
 }
 
 
 
-/* -----PLAYER----- */
+/* ----- GAME LOOP----- */
 
 function gameLoop() {
     addObjects(LEVEL);
@@ -246,7 +243,28 @@ function addObjects(LEVEL) {
 
 
 
-/* -----DRAW GRID LAYOUT----- */
+/* -----RESET LEVEL----- */
+
+function resetLevel() {
+    targetArray = [];
+    innerWallArray = [];
+    boxArray = [];
+    ctx.clearRect(BOX_SIZE, BOX_SIZE, CANVAS_WIDTH - 2 * BOX_SIZE, CANVAS_HEIGHT - 2 * BOX_SIZE);
+    sameDirectionCount = 1;
+    playerDirection = 39;
+    setPlayerPosition();
+    gameLoop();
+};
+
+function hideIngameControls() {
+    controls.setAttribute('style', 'visibility: hidden');
+    document.getElementById('playfield').setAttribute('style', 'display: none');
+}
+
+function showCanvas() {
+    document.getElementById('playfield').removeAttribute('style');
+    document.getElementById('playfield').setAttribute('style', 'display: block');
+}
 
 function clearCanvas() {
     if (clearCoordinates.x > 0 && clearCoordinates.y > 0) {
@@ -322,7 +340,7 @@ function CreateBox(xCoord, yCoord) {
         x: xCoord,
         y: yCoord,
         draw: function () {
-            ctx.drawImage(boxImage, 0, 0, 100, 100, this.x * BOX_SIZE + 1, this.y * BOX_SIZE + 1, BOX_SIZE - 2, BOX_SIZE - 2);
+            ctx.drawImage(boxImage, this.x * BOX_SIZE + 1, this.y * BOX_SIZE + 1, BOX_SIZE - 2, BOX_SIZE - 2);
         }
     };
 }
@@ -342,7 +360,7 @@ function CreateTarget(xCoord, yCoord) {
         x: xCoord,
         y: yCoord,
         draw: function () {
-            ctx.drawImage(targetImage, 0, 0, 200, 200, this.x * BOX_SIZE + 1, this.y * BOX_SIZE + 1, BOX_SIZE - 2, BOX_SIZE - 2);
+            ctx.drawImage(targetImage, 0, 0, 400, 400, this.x * BOX_SIZE + 1, this.y * BOX_SIZE + 1, BOX_SIZE - 2, BOX_SIZE - 2);
         }
     };
 }
@@ -351,6 +369,184 @@ function drawTargets() {
     for (var index in targetArray) {
         targetArray[index].draw();
     }
+}
+
+
+
+/* -----SET PLAYER POSITION AND IMAGE----- */
+
+function setPlayerPosition() {
+    player = {
+        x: playerStartX,
+        y: playerStartY,
+        draw: function () {
+            switch (playerDirection) {
+                case 37:
+                    picX = 284;
+                    picY = 352;
+                    switch (sameDirectionCount) {
+                        case 1:
+                            playerImage = playerLEFTImage1;
+                            break;
+                        case 2:
+                            playerImage = playerLEFTImage2;
+                            break;
+                        case 3:
+                            playerImage = playerLEFTImage3;
+                            break;
+                        case 4:
+                            playerImage = playerLEFTImage2;
+                            break;
+                    }
+                    break;
+                case 38:
+                    picX = 352;
+                    picY = 284;
+                    switch (sameDirectionCount) {
+                        case 1:
+                            playerImage = playerUPImage1;
+                            break;
+                        case 2:
+                            playerImage = playerUPImage2;
+                            break;
+                        case 3:
+                            playerImage = playerUPImage3;
+                            break;
+                        case 4:
+                            playerImage = playerUPImage2;
+                            break;
+                    }
+                    break;
+                case 39:
+                    picX = 284;
+                    picY = 352;
+                    switch (sameDirectionCount) {
+                        case 1:
+                            playerImage = playerRIGHTImage1;
+                            break;
+                        case 2:
+                            playerImage = playerRIGHTImage2;
+                            break;
+                        case 3:
+                            playerImage = playerRIGHTImage3;
+                            break;
+                        case 4:
+                            playerImage = playerRIGHTImage2;
+                            break;
+                    }
+                    break;
+                case 40:
+                    picX = 352;
+                    picY = 284;
+                    switch (sameDirectionCount) {
+                        case 1:
+                            playerImage = playerDOWNImage1;
+                            break;
+                        case 2:
+                            playerImage = playerDOWNImage2;
+                            break;
+                        case 3:
+                            playerImage = playerDOWNImage3;
+                            break;
+                        case 4:
+                            playerImage = playerDOWNImage2;
+                            break;
+                    }
+                    break;
+                default:
+                    picX = 284;
+                    picY = 352;
+                    switch (sameDirectionCount) {
+                        case 1:
+                            playerImage = playerRIGHTImage1;
+                            break;
+                        case 2:
+                            playerImage = playerRIGHTImage2;
+                            break;
+                        case 3:
+                            playerImage = playerRIGHTImage3;
+                            break;
+                        case 4:
+                            playerImage = playerRIGHTImage2;
+                            break;
+                    }
+                    break;
+            }
+            ctx.drawImage(playerImage, 0, 0, picX, picY, this.x * BOX_SIZE + 1, this.y * BOX_SIZE + 1, BOX_SIZE - 2, BOX_SIZE - 2);
+
+        }
+    };
+}
+
+
+
+/* -----PLAYER MOVEMENT----- */
+
+document.addEventListener("keydown", keyDownHandler, false);
+
+function keyDownHandler(event) {
+    var keyPressed = event.keyCode;
+    if (!gameOver) {
+        if (keyPressed == 37 && !overlapsWall(player.x - 1, player.y) && !overlapsTwoBoxes(player.x - 1, player.y, player.x - 2 * 1, player.y)) { // left       
+            clearCoordinates.x = player.x * BOX_SIZE;
+            clearCoordinates.y = player.y * BOX_SIZE;
+            player.x -= 1;
+            playerDirection = 37;
+            sameDirectionCount += 1;
+            if (sameDirectionCount >= 4) {
+                sameDirectionCount = 1;
+            }
+            if (overlapsBox(player.x, player.y) && !overlapsWall(player.x - 1, player.y)) {
+                boxArray[boxIndex].x -= 1;
+                document.getElementById('slide').play();
+            }
+        } else if (keyPressed == 38 && !overlapsWall(player.x, player.y - 1) && !overlapsTwoBoxes(player.x, player.y - 1, player.x, player.y - 2 * 1)) { // up
+            clearCoordinates.x = player.x * BOX_SIZE;
+            clearCoordinates.y = player.y * BOX_SIZE;
+            player.y -= 1;
+            playerDirection = 38;
+            sameDirectionCount += 1;
+            if (sameDirectionCount >= 4) {
+                sameDirectionCount = 1;
+            }
+            if (overlapsBox(player.x, player.y) && !overlapsWall(player.x, player.y - 1)) {
+                boxArray[boxIndex].y -= 1;
+                document.getElementById('slide').play();
+            }
+        } else if (keyPressed == 39 && !overlapsWall(player.x + 1, player.y) && !overlapsTwoBoxes(player.x + 1, player.y, player.x + 2 * 1, player.y)) { // right
+            clearCoordinates.x = player.x * BOX_SIZE;
+            clearCoordinates.y = player.y * BOX_SIZE;
+            player.x += 1;
+            playerDirection = 39;
+            sameDirectionCount += 1;
+            if (sameDirectionCount >= 4) {
+                sameDirectionCount = 1;
+            }
+            if (overlapsBox(player.x, player.y) && !overlapsWall(player.x + 1, player.y)) {
+                boxArray[boxIndex].x += 1;
+                document.getElementById('slide').play();
+            }
+        } else if (keyPressed == 40 && !overlapsWall(player.x, player.y + 1) && !overlapsTwoBoxes(player.x, player.y + 1, player.x, player.y + 2 * 1)) { // down
+            clearCoordinates.x = player.x * BOX_SIZE;
+            clearCoordinates.y = player.y * BOX_SIZE;
+            player.y += 1;
+            playerDirection = 40;
+            sameDirectionCount += 1;
+            if (sameDirectionCount >= 5) {
+                sameDirectionCount = 1;
+            }
+            if (overlapsBox(player.x, player.y) && !overlapsWall(player.x, player.y + 1)) {
+                boxArray[boxIndex].y += 1;
+                document.getElementById('slide').play();
+            }
+        }
+
+        if (keyPressed == 37 || keyPressed == 38 || keyPressed == 39 || keyPressed == 40) {
+            document.getElementById('footsteps').play();
+        }
+        refreshScreen();
+    }
+
 }
 
 
@@ -409,57 +605,6 @@ function overlapsTwoBoxes(objX, objY, directionX, directionY) {
         isOverlapping = 0;
     }
     return isOverlapping;
-}
-
-
-
-/* -----PLAYER MOVEMENT----- */
-
-document.addEventListener("keydown", keyDownHandler, false);
-
-function keyDownHandler(event) {
-    var keyPressed = event.keyCode;
-    if (!gameOver) {
-        if (keyPressed == 37 && !overlapsWall(player.x - 1, player.y) && !overlapsTwoBoxes(player.x - 1, player.y, player.x - 2 * 1, player.y)) { // left       
-            clearCoordinates.x = player.x * BOX_SIZE;
-            clearCoordinates.y = player.y * BOX_SIZE;
-            player.x -= 1;
-            if (overlapsBox(player.x, player.y) && !overlapsWall(player.x - 1, player.y)) {
-                boxArray[boxIndex].x -= 1;
-                document.getElementById('slide').play();
-            }
-        } else if (keyPressed == 38 && !overlapsWall(player.x, player.y - 1) && !overlapsTwoBoxes(player.x, player.y - 1, player.x, player.y - 2 * 1)) { // up
-            clearCoordinates.x = player.x * BOX_SIZE;
-            clearCoordinates.y = player.y * BOX_SIZE;
-            player.y -= 1;
-            if (overlapsBox(player.x, player.y) && !overlapsWall(player.x, player.y - 1)) {
-                boxArray[boxIndex].y -= 1;
-                document.getElementById('slide').play();
-            }
-        } else if (keyPressed == 39 && !overlapsWall(player.x + 1, player.y) && !overlapsTwoBoxes(player.x + 1, player.y, player.x + 2 * 1, player.y)) { // right
-            clearCoordinates.x = player.x * BOX_SIZE;
-            clearCoordinates.y = player.y * BOX_SIZE;
-            player.x += 1;
-            if (overlapsBox(player.x, player.y) && !overlapsWall(player.x + 1, player.y)) {
-                boxArray[boxIndex].x += 1;
-                document.getElementById('slide').play();
-            }
-        } else if (keyPressed == 40 && !overlapsWall(player.x, player.y + 1) && !overlapsTwoBoxes(player.x, player.y + 1, player.x, player.y + 2 * 1)) { // down
-            clearCoordinates.x = player.x * BOX_SIZE;
-            clearCoordinates.y = player.y * BOX_SIZE;
-            player.y += 1;
-            if (overlapsBox(player.x, player.y) && !overlapsWall(player.x, player.y + 1)) {
-                boxArray[boxIndex].y += 1;
-                document.getElementById('slide').play();
-            }
-        }
-
-        if (keyPressed == 37 || keyPressed == 38 || keyPressed == 39 || keyPressed == 40) {
-            document.getElementById('footsteps').play();
-        }
-        refreshScreen();
-    }
-
 }
 
 
